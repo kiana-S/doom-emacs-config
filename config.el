@@ -22,7 +22,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "VictorMono" :size 12 :weight 'semi-bold))
-(setq doom-variable-pitch-font (font-spec :family "NotoSans" :size 14 :weight 'light))
+(setq doom-variable-pitch-font (font-spec :family "NotoSans" :size 14 :weight 'regular))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
