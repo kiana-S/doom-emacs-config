@@ -23,9 +23,9 @@
 ;;
 (setq doom-font (font-spec :family "VictorMono" :size 12 :weight 'semi-bold))
 
-(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
-(set-face-attribute 'font-lock-function-name-face nil :slant 'italic)
-(set-face-attribute 'font-lock-variable-name-face nil :slant 'italic)
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-variable-name-face :slant italic))
 
 
 ;;
@@ -83,3 +83,29 @@
 (use-package! pinentry
   :init (setq epg-pinentry-mode `loopback)
         (pinentry-start))
+
+(after! evil-escape
+  (setq-default evil-escape-key-sequence "fd"))
+
+(after! idris-mode
+  (custom-set-faces! '(idris-operator-face :slant normal :inherit font-lock-variable-name-face)))
+
+(after! highlight-indent-guides
+  (setq-default highlight-indent-guides-method "character")
+  (setq highlight-indent-guides-character 9615)
+  (setq-default highlight-indent-guides-responsive "top"))
+
+;; Bind "SPC 0" to treemacs
+;; Map window bindings to "SPC 1" through "SPC 9"
+(map! :leader
+  "w 0" #'treemacs-select-window
+  "0" #'treemacs-select-window
+  "1" #'winum-select-window-1
+  "2" #'winum-select-window-2
+  "3" #'winum-select-window-3
+  "4" #'winum-select-window-4
+  "5" #'winum-select-window-5
+  "6" #'winum-select-window-6
+  "7" #'winum-select-window-7
+  "8" #'winum-select-window-8
+  "9" #'winum-select-window-9)
