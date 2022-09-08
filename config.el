@@ -22,6 +22,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "VictorMono" :size 12 :weight 'semi-bold))
+(setq doom-variable-pitch-font (font-spec :family "NotoSans" :size 14 :weight 'light))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
@@ -37,7 +38,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-tokyo-night)
+(after! doom-themes
+  (setq doom-themes-treemacs-theme "doom-colors"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -92,8 +95,8 @@
 
 (after! highlight-indent-guides
   (setq-default highlight-indent-guides-method "character")
-  (setq highlight-indent-guides-character 9615)
-  (setq-default highlight-indent-guides-responsive "top"))
+  (setq-default highlight-indent-guides-responsive "top")
+  (highlight-indent-guides-auto-set-faces))
 
 ;; Bind "SPC 0" to treemacs
 ;; Map window bindings to "SPC 1" through "SPC 9"
