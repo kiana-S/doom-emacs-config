@@ -86,7 +86,7 @@
 (map! :map evil-normal-state-map "q" nil)
 
 (use-package! pinentry
-  :init (setq epg-pinentry-mode `loopback)
+  :init (setq-default epg-pinentry-mode `loopback)
         (pinentry-start))
 
 ;; Restart pinentry due to inactivity
@@ -102,15 +102,14 @@
 ;; Idris 2
 (after! idris2-mode
   (custom-set-faces! '(idris2-operator-face :slant normal :inherit font-lock-variable-name-face))
-  (custom-set-faces! '(idris2-semantic-data-face :foreground "#f7768e"))
-  (custom-set-faces! '(idris2-semantic-function-face :foreground "#9ece6a"))
-  (custom-set-faces! '(idris2-semantic-bound-face :foreground "#bb9af7"))
+  (set-face-foreground 'idris2-semantic-data-face "#f7768e")
+  (set-face-foreground 'idris2-semantic-function-face "#9ece6a")
+  (set-face-foreground 'idris2-semantic-bound-face "#bb9af7")
 
   ;; Close windows instead of killing buffers
   (map! :map idris2-compiler-notes-mode-map "q" #'quit-window)
   (map! :map idris2-info-mode-map "q" #'quit-window)
-  (map! :map idris2-hole-list-mode-map "q" #'quit-window)
-  (map! :map comint-mode-map "q" #'quit-window))
+  (map! :map idris2-hole-list-mode-map "q" #'quit-window))
 
 (add-hook 'idris2-mode-hook #'turn-on-idris2-simple-indent)
 (set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
@@ -162,9 +161,13 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
 
 
 (after! highlight-indent-guides
-  (setq-default highlight-indent-guides-method "character")
-  (setq-default highlight-indent-guides-responsive "top")
-  (highlight-indent-guides-auto-set-faces))
+  (setq-default highlight-indent-guides-method 'character)
+  (setq-default highlight-indent-guides-character 9615)
+  (setq-default highlight-indent-guides-responsive 'top)
+
+  (setq highlight-indent-guides-auto-enabled nil)
+  (set-face-foreground 'highlight-indent-guides-character-face "#2d303f")
+  (set-face-foreground 'highlight-indent-guides-top-character-face "#515880"))
 
 ;; Bind "SPC 0" to treemacs
 ;; Map window bindings to "SPC 1" through "SPC 9"
