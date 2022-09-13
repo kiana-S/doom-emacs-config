@@ -120,7 +120,7 @@
 (map! :localleader
       :map idris2-mode-map
       "q" #'idris2-quit
-      "r" #'idris2-repl
+      "r" #'idris2-pop-to-repl
       "l" #'idris2-load-file
       "t" #'idris2-type-at-point
       "a" #'idris2-add-clause
@@ -146,6 +146,16 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
              (lambda (&rest args) 1)))
     (apply fn args)))
 (advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
+
+;; Move window to position
+(defun ~/idris2-repl--wrapper ()
+  "Moves the idris 2 repl window to the bottom of the frame."
+  (save-selected-window
+    (select-window (get-buffer-window idris2-repl-buffer-name))
+    (evil-window-move-very-bottom)
+    (enlarge-window (- 8 (window-body-height)))))
+(advice-add #'idris2-repl-buffer :after #'~/idris2-repl--wrapper)
+(advice-add #'idris2-pop-to-repl :after #'~/idris2-repl--wrapper)
 
 (after! company
   (setq company-global-modes '(not idris2-mode idris2-repl-mode)))
