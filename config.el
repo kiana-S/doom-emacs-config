@@ -91,6 +91,7 @@
 
 ;; Restart pinentry due to inactivity
 (defun pinentry-restart ()
+  "Restart a Pinentry service."
   (interactive)
   (pinentry-stop) (pinentry-start))
 
@@ -129,7 +130,7 @@
       "m" #'idris2-add-missing
       "p" #'idris2-proof-search
       "h" #'idris2-docs-at-point
-      "d" #'idris2-jump-to-def
+      "d" #'idris2-jump-to-def-same-window
       "i" '(:ignore t :which-key "ipkg")
       "i f" #'idris2-open-package-file
       "i b" #'idris2-ipkg-build
