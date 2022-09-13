@@ -8,11 +8,10 @@
 
 (package! pinentry)
 
-;; To install a package directly from a remote git repo, you must specify a
-;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
-;; https://github.com/raxod502/straight.el#the-recipe-format
-;(package! another-package
-;  :recipe (:host github :repo "username/repo"))
+;; Idris 2 mode
+(package! idris2-mode
+  :recipe (:host github :repo "idris-community/idris2-mode"))
+
 
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
 ;; file, or is located in a subdirectory of the repo, you'll need to specify

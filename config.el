@@ -83,6 +83,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(map! :map evil-normal-state-map "q" nil)
+
 (use-package! pinentry
   :init (setq epg-pinentry-mode `loopback)
         (pinentry-start))
@@ -90,8 +92,57 @@
 (after! evil-escape
   (setq-default evil-escape-key-sequence "fd"))
 
-(after! idris-mode
-  (custom-set-faces! '(idris-operator-face :slant normal :inherit font-lock-variable-name-face)))
+;; Idris 2
+(after! idris2-mode
+  (custom-set-faces! '(idris2-operator-face :slant normal :inherit font-lock-variable-name-face))
+  (custom-set-faces! '(idris2-semantic-data-face :foreground "#f7768e"))
+  (custom-set-faces! '(idris2-semantic-function-face :foreground "#9ece6a"))
+  (custom-set-faces! '(idris2-semantic-bound-face :foreground "#bb9af7"))
+
+  ;; Close windows instead of killing buffers
+  (map! :map idris2-compiler-notes-mode-map "q" #'quit-window)
+  (map! :map idris2-info-mode-map "q" #'quit-window)
+  (map! :map idris2-hole-list-mode-map "q" #'quit-window)
+  (map! :map comint-mode-map "q" #'quit-window))
+
+(add-hook 'idris2-mode-hook #'turn-on-idris2-simple-indent)
+(set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
+(set-lookup-handlers! 'idris2-mode
+  :documentation #'idris2-docs-at-point)
+(setq evil-emacs-state-modes (cons 'idris2-repl-mode evil-emacs-state-modes))
+(map! :localleader
+      :map idris2-mode-map
+      "q" #'idris2-quit
+      "r" #'idris2-repl
+      "l" #'idris2-load-file
+      "t" #'idris2-type-at-point
+      "a" #'idris2-add-clause
+      "e" #'idris2-make-lemma
+      "c" #'idris2-case-dwim
+      "w" #'idris2-make-with-block
+      "m" #'idris2-add-missing
+      "p" #'idris2-proof-search
+      "h" #'idris2-docs-at-point
+      "d" #'idris2-jump-to-def
+      "i" '(:ignore t :which-key "ipkg")
+      "i f" #'idris2-open-package-file
+      "i b" #'idris2-ipkg-build
+      "i c" #'idris2-ipkg-clean
+      "i i" #'idris2-ipkg-install)
+
+
+;; Fixes lag when editing idris code with evil
+(defun ~/evil-motion-range--wrapper (fn &rest args)
+  "Like `evil-motion-range', but override field-beginning for performance.
+See URL `https://github.com/ProofGeneral/PG/issues/427'."
+  (cl-letf (((symbol-function 'field-beginning)
+             (lambda (&rest args) 1)))
+    (apply fn args)))
+(advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
+
+(after! company
+  (setq company-global-modes '(not idris2-mode idris2-repl-mode)))
+
 
 (after! highlight-indent-guides
   (setq-default highlight-indent-guides-method "character")
