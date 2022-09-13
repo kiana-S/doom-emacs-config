@@ -89,6 +89,12 @@
   :init (setq epg-pinentry-mode `loopback)
         (pinentry-start))
 
+;; Restart pinentry due to inactivity
+(defun pinentry-restart ()
+  (interactive)
+  (pinentry-stop) (pinentry-start))
+
+
 (after! evil-escape
   (setq-default evil-escape-key-sequence "fd"))
 
