@@ -7,6 +7,7 @@
 
 
 (package! pinentry)
+(package! evil-goggles)
 
 ;; Idris 2 mode
 (package! idris2-mode

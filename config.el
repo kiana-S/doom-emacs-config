@@ -1,4 +1,4 @@
- ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -89,6 +89,31 @@
   :init (setq-default epg-pinentry-mode `loopback)
         (pinentry-start))
 
+(use-package! evil-goggles
+  :hook (doom-first-input . evil-goggles-mode)
+  :init
+  (setq-default evil-goggles-duration 0.15
+                evil-goggles-blocking-duration 0.12
+                evil-goggles-async-duration 0.2)
+  :config
+  (pushnew! evil-goggles--commands
+            '(evil-magit-yank-whole-line
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice)
+            '(+evil:yank-unindented
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice)
+            '(+eval:region
+              :face evil-goggles-yank-face
+              :switch evil-goggles-enable-yank
+              :advice evil-goggles--generic-async-advice))
+  (custom-set-faces! '(evil-goggles-default-face :background "#2b3a7f")
+                     '(evil-goggles-delete-face :inherit magit-diff-removed-highlight)
+                     '(evil-goggles-paste-face :inherit magit-diff-added-highlight)
+                     '(evil-goggles-change-face :inherit evil-goggles-delete-face)))
+
 ;; Restart pinentry due to inactivity
 (defun pinentry-restart ()
   "Restart a Pinentry service."
@@ -139,8 +164,8 @@
 
 ;; Fixes lag when editing idris code with evil
 (defun ~/evil-motion-range--wrapper (fn &rest args)
-  "Like `evil-motion-range', but override field-beginning for performance.
-See URL `https://github.com/ProofGeneral/PG/issues/427'."
+  "Like 'evil-motion-range', but override field-beginning for performance.
+See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   (cl-letf (((symbol-function 'field-beginning)
              (lambda (&rest args) 1)))
     (apply fn args)))
@@ -152,7 +177,7 @@ See URL `https://github.com/ProofGeneral/PG/issues/427'."
   (save-selected-window
     (select-window (get-buffer-window idris2-repl-buffer-name))
     (evil-window-move-very-bottom)
-    (enlarge-window (- 8 (window-body-height)))))
+    (shrink-window (- (window-body-height) 8))))
 (advice-add #'idris2-repl-buffer :after #'~/idris2-repl--wrapper)
 (advice-add #'idris2-pop-to-repl :after #'~/idris2-repl--wrapper)
 
