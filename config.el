@@ -85,8 +85,31 @@
 
 (map! :map evil-normal-state-map "q" nil)
 
+(after! treemacs
+  (setq-default treemacs-read-string-input 'from-minibuffer))
+
+(after! dired-mode
+  (setq-default dired-kill-when-opening-new-dired-buffer t))
+
+(after! org
+  (setq-default org-cycle-emulate-tab nil
+                org-attach-dir-relative t
+                org-log-into-drawer t)
+  (setq org-capture-templates
+        '(("t" "Task" entry (file+headline "~/org/events.org" "Tasks")
+           "* TODO %?\nDEADLINE: %^{Deadline}T" :empty-lines 1)
+          ("e" "Event" entry (file+headline "~/org/events.org" "Events")
+           "* %^T %?" :empty-lines 1)
+          ("j" "Journal entry" entry (file+olp+datetree "~/org/journal.org")
+           "* %U\n\n%i%?" :empty-lines 1))))
+(map! :localleader
+        :map org-mode-map
+        "C" #'org-columns
+        "c D" #'org-clock-display)
+
+
 (use-package! pinentry
-  :init (setq-default epg-pinentry-mode `loopback)
+  :init (setq epg-pinentry-mode `loopback)
         (pinentry-start))
 
 (use-package! evil-goggles
@@ -167,7 +190,7 @@
   "Like 'evil-motion-range', but override field-beginning for performance.
 See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   (cl-letf (((symbol-function 'field-beginning)
-             (lambda (&rest args) 1)))
+             (lambda (&rest _) 1)))
     (apply fn args)))
 (advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
 
@@ -186,13 +209,11 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
 
 
 (after! highlight-indent-guides
-  (setq-default highlight-indent-guides-method 'character)
-  (setq-default highlight-indent-guides-character 9615)
-  (setq-default highlight-indent-guides-responsive 'top)
-
-  (setq highlight-indent-guides-auto-enabled nil)
-  (set-face-foreground 'highlight-indent-guides-character-face "#2d303f")
-  (set-face-foreground 'highlight-indent-guides-top-character-face "#515880"))
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-character 9615
+        highlight-indent-guides-responsive 'top
+        highlight-indent-guides-auto-character-face-perc 15
+        highlight-indent-guides-auto-top-character-face-perc 45))
 
 ;; Bind "SPC 0" to treemacs
 ;; Map window bindings to "SPC 1" through "SPC 9"
@@ -207,4 +228,6 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   "6" #'winum-select-window-6
   "7" #'winum-select-window-7
   "8" #'winum-select-window-8
-  "9" #'winum-select-window-9)
+  "9" #'winum-select-window-9
+
+  "o c" #'cfw:open-org-calendar)
