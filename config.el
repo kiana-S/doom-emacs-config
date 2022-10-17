@@ -96,17 +96,38 @@
                 org-attach-dir-relative t
                 org-log-into-drawer t)
   (setq org-capture-templates
-        '(("t" "Task" entry (file+headline "~/org/events.org" "Tasks")
+        '(("t" "Task")
+          ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
+           "* TODO %?" :empty-lines 1)
+          ("td" "Task with Deadline" entry (file+headline "~/org/events.org" "Tasks")
            "* TODO %?\nDEADLINE: %^{Deadline}T" :empty-lines 1)
+          ("tD" "Task with Deadline (date only)" entry (file+headline "~/org/events.org" "Tasks")
+           "* TODO %?\nDEADLINE: %^{Deadline}t" :empty-lines 1)
+          ("ts" "Scheduled Task" entry (file+headline "~/org/events.org" "Tasks")
+           "* TODO %?\nSCHEDULED: %^{Time}T" :empty-lines 1)
+          ("tS" "Scheduled Task (date only)" entry (file+headline "~/org/events.org" "Tasks")
+           "* TODO %?\nSCHEDULED: %^{Date}t" :empty-lines 1)
           ("e" "Event" entry (file+headline "~/org/events.org" "Events")
            "* %^T %?" :empty-lines 1)
-          ("j" "Journal entry" entry (file+olp+datetree "~/org/journal.org")
-           "* %U\n\n%i%?" :empty-lines 1))))
+          ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
+           "* %^t %?" :empty-lines 1))))
 (map! :localleader
-        :map org-mode-map
-        "C" #'org-columns
-        "c D" #'org-clock-display)
+  :after org
+  :map org-mode-map
+  "C" #'org-columns
+  "c D" #'org-clock-display)
 
+(after! org-journal
+  (setq-default org-journal-file-format "%Y-%m-%d"
+                org-extend-today-until 4
+                org-journal-hide-entries-p nil))
+
+(defun +org/org-journal-open-latest ()
+  (interactive)
+  (require 'org-journal)
+  (funcall org-journal-find-file
+           (car (last (seq-filter #'file-regular-p
+             (directory-files org-journal-dir 'full))))))
 
 (use-package! pinentry
   :init (setq epg-pinentry-mode `loopback)
@@ -230,4 +251,7 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   "8" #'winum-select-window-8
   "9" #'winum-select-window-9
 
-  "o c" #'cfw:open-org-calendar)
+  :desc "Calendar"
+    "o c" #'cfw:open-org-calendar
+  :desc "Journal"
+    "o j" #'+org/org-journal-open-latest)
