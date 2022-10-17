@@ -173,22 +173,23 @@
   (custom-set-faces! '(idris2-operator-face :slant normal :inherit font-lock-variable-name-face))
   (set-face-foreground 'idris2-semantic-data-face "#f7768e")
   (set-face-foreground 'idris2-semantic-function-face "#9ece6a")
-  (set-face-foreground 'idris2-semantic-bound-face "#bb9af7")
+  (set-face-foreground 'idris2-semantic-bound-face "#bb9af7"))
 
-  ;; Close windows instead of killing buffers
-  (map! :map idris2-compiler-notes-mode-map "q" #'quit-window)
-  (map! :map idris2-info-mode-map "q" #'quit-window)
-  (map! :map idris2-hole-list-mode-map "q" #'quit-window))
 
 (add-hook 'idris2-mode-hook #'turn-on-idris2-simple-indent)
 (set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
 (set-lookup-handlers! 'idris2-mode
-  :documentation #'idris2-docs-at-point)
+  :documentation #'idris2-docs-at-point
+  :definition #'idris2-jump-to-def)
 (setq evil-emacs-state-modes (cons 'idris2-repl-mode evil-emacs-state-modes))
+;; Close windows instead of killing buffers
+(map! :after idris2-mode :map idris2-compiler-notes-mode-map "q" #'quit-window)
+(map! :after idris2-mode :map idris2-info-mode-map "q" #'quit-window)
+(map! :after idris2-mode :map idris2-hole-list-mode-map "q" #'quit-window)
 (map! :localleader
+      :after idris2-mode
       :map idris2-mode-map
       "q" #'idris2-quit
-      "r" #'idris2-pop-to-repl
       "l" #'idris2-load-file
       "t" #'idris2-type-at-point
       "a" #'idris2-add-clause
@@ -214,16 +215,6 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
              (lambda (&rest _) 1)))
     (apply fn args)))
 (advice-add #'evil-motion-range :around #'~/evil-motion-range--wrapper)
-
-;; Move window to position
-(defun ~/idris2-repl--wrapper ()
-  "Moves the idris 2 repl window to the bottom of the frame."
-  (save-selected-window
-    (select-window (get-buffer-window idris2-repl-buffer-name))
-    (evil-window-move-very-bottom)
-    (shrink-window (- (window-body-height) 8))))
-(advice-add #'idris2-repl-buffer :after #'~/idris2-repl--wrapper)
-(advice-add #'idris2-pop-to-repl :after #'~/idris2-repl--wrapper)
 
 (after! company
   (setq company-global-modes '(not idris2-mode idris2-repl-mode)))
