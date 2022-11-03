@@ -219,14 +219,14 @@
 (defun +idris2/jump-to-definition ()
   "Move cursor to the definition of the name at point."
   (interactive)
-  (let ((name (car (idris2-thing-at-point t))))
-    (let ((res (car (idris2-eval (list :name-at name)))))
-      (if (null res)
-          (user-error "Symbol '%s' not found" name)
-        (if (null (cdr res))
-            (idris2-jump-to-location (car res) t)
-          (idris2-jump-to-location
-            (assoc (completing-read "Name: " res nil t) res) t))))))
+  (let* ((name (car (idris2-thing-at-point t)))
+         (res (car (idris2-eval (list :name-at name))))
+    (if (null res)
+        (user-error "Symbol '%s' not found" name)
+    (if (null (cdr res))
+        (idris2-jump-to-location (car res) t)
+    (idris2-jump-to-location
+      (assoc (completing-read "Name: " res nil t) res) t))))))
 
 (defun +idris2/type-at-point ()
   "Return the type of the name at point."
@@ -258,6 +258,29 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
 
 (after! lsp-mode
   (setq lsp-diagnostics-provider :flymake))
+
+;; Dired
+(defun +dired/up-directory-alternative ()
+  "Use single instance of dired buffer when going up a directory."
+  (interactive)
+  (set-buffer-modified-p nil)
+  (let ((up (file-name-directory (directory-file-name (dired-current-directory)))))
+    (or (dired-goto-subdir up) (find-alternate-file up))))
+
+(defun +dired/find-alt-file-for-directories ()
+  "Use single instance of dired buffer when opening files."
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (if (file-directory-p file)
+        (progn
+          (set-buffer-modified-p nil)
+          (find-alternate-file file))
+      (find-file file))))
+
+(map! :after dired :map dired-mode-map
+      [remap dired-find-file]    #'+dired/find-alt-file-for-directories
+      [remap dired-up-directory] #'+dired/up-directory-alternative)
+
 
 ;; General keybindings
 (map! :leader
