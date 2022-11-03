@@ -264,16 +264,26 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   ;; Bind "SPC 0" to treemacs
   ;; Map window bindings to "SPC 1" through "SPC 9"
   "w 0" #'treemacs-select-window
-  "0" #'treemacs-select-window
-  "1" #'winum-select-window-1
-  "2" #'winum-select-window-2
-  "3" #'winum-select-window-3
-  "4" #'winum-select-window-4
-  "5" #'winum-select-window-5
-  "6" #'winum-select-window-6
-  "7" #'winum-select-window-7
-  "8" #'winum-select-window-8
-  "9" #'winum-select-window-9
+  :desc "Select project tree window"
+    "0" #'treemacs-select-window
+  :desc "Select window 1"
+    "1" #'winum-select-window-1
+  :desc "Select window 2"
+    "2" #'winum-select-window-2
+  :desc "Select window 3"
+    "3" #'winum-select-window-3
+  :desc "Select window 4"
+    "4" #'winum-select-window-4
+  :desc "Select window 5"
+    "5" #'winum-select-window-5
+  :desc "Select window 6"
+    "6" #'winum-select-window-6
+  :desc "Select window 7"
+    "7" #'winum-select-window-7
+  :desc "Select window 8"
+    "8" #'winum-select-window-8
+  :desc "Select window 9"
+    "9" #'winum-select-window-9
 
   ;; Replace M-x binding with something more useful
 
