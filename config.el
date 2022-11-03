@@ -175,40 +175,58 @@
 ;; Idris 2
 (after! idris2-mode
   (custom-set-faces! '(idris2-operator-face :slant normal :inherit font-lock-variable-name-face))
-  (set-face-foreground 'idris2-semantic-data-face "#f7768e")
-  (set-face-foreground 'idris2-semantic-function-face "#9ece6a")
-  (set-face-foreground 'idris2-semantic-bound-face "#bb9af7"))
+  (set-face-foreground 'idris2-semantic-data-face (doom-color 'red))
+  (set-face-foreground 'idris2-semantic-function-face (doom-color 'dark-green))
+  (set-face-foreground 'idris2-semantic-bound-face (doom-color 'magenta))
+  (set-face-foreground 'idris2-semantic-type-face (doom-color 'blue))
+  (add-hook 'idris2-mode-hook #'turn-on-idris2-simple-indent)
+  (set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
+  (set-lookup-handlers! 'idris2-mode
+    :definition #'+idris2/jump-to-definition
+    :documentation #'+idris2/jump-to-definition)
+  ;; Close windows instead of killing buffers
+  (map! :after idris2-mode :map idris2-compiler-notes-mode-map "q" #'quit-window)
+  (map! :after idris2-mode :map idris2-info-mode-map "q" #'quit-window)
+  (map! :after idris2-mode :map idris2-hole-list-mode-map "q" #'quit-window)
+  (map! :localleader
+        :after idris2-mode
+        :map idris2-mode-map
+        "q" #'idris2-quit
+        "l" #'idris2-load-file
+        "t" #'idris2-type-at-point
+        "a" #'idris2-add-clause
+        "e" #'idris2-make-lemma
+        "c" #'idris2-case-dwim
+        "w" #'idris2-make-with-block
+        "m" #'idris2-add-missing
+        "p" #'idris2-proof-search
+        "h" #'idris2-docs-at-point
+        "d" #'+idris2/jump-to-definition
+        "i" '(:ignore t :which-key "ipkg")
+        "i f" #'idris2-open-package-file
+        "i b" #'idris2-ipkg-build
+        "i c" #'idris2-ipkg-clean
+        "i i" #'idris2-ipkg-install))
 
 
-(add-hook 'idris2-mode-hook #'turn-on-idris2-simple-indent)
-(set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
-(set-lookup-handlers! 'idris2-mode
-  :documentation #'idris2-docs-at-point
-  :definition #'idris2-jump-to-def)
-(setq evil-emacs-state-modes (cons 'idris2-repl-mode evil-emacs-state-modes))
-;; Close windows instead of killing buffers
-(map! :after idris2-mode :map idris2-compiler-notes-mode-map "q" #'quit-window)
-(map! :after idris2-mode :map idris2-info-mode-map "q" #'quit-window)
-(map! :after idris2-mode :map idris2-hole-list-mode-map "q" #'quit-window)
-(map! :localleader
-      :after idris2-mode
-      :map idris2-mode-map
-      "q" #'idris2-quit
-      "l" #'idris2-load-file
-      "t" #'idris2-type-at-point
-      "a" #'idris2-add-clause
-      "e" #'idris2-make-lemma
-      "c" #'idris2-case-dwim
-      "w" #'idris2-make-with-block
-      "m" #'idris2-add-missing
-      "p" #'idris2-proof-search
-      "h" #'idris2-docs-at-point
-      "d" #'idris2-jump-to-def-same-window
-      "i" '(:ignore t :which-key "ipkg")
-      "i f" #'idris2-open-package-file
-      "i b" #'idris2-ipkg-build
-      "i c" #'idris2-ipkg-clean
-      "i i" #'idris2-ipkg-install)
+(defun +idris2/jump-to-definition ()
+  "Move cursor to the definition of the name at point."
+  (interactive)
+  (let ((name (car (idris2-thing-at-point t))))
+    (let ((res (car (idris2-eval (list :name-at name)))))
+      (if (null res)
+          (user-error "Symbol '%s' not found" name)
+        (if (null (cdr res))
+            (idris2-jump-to-location (car res) t)
+          (idris2-jump-to-location
+            (assoc (completing-read "Name: " res nil t) res) t))))))
+
+(defun +idris2/type-at-point ()
+  "Return the type of the name at point."
+  (interactive)
+  (let ((name (car (idris2-thing-at-point t))))
+    (car (idris2-eval (list :type-of name)))))
+
 
 
 ;; Fixes lag when editing idris code with evil
