@@ -249,9 +249,13 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
         highlight-indent-guides-auto-character-face-perc 15
         highlight-indent-guides-auto-top-character-face-perc 45))
 
-;; Bind "SPC 0" to treemacs
-;; Map window bindings to "SPC 1" through "SPC 9"
+(after! lsp-mode
+  (setq lsp-diagnostics-provider :flymake))
+
+;; General keybindings
 (map! :leader
+  ;; Bind "SPC 0" to treemacs
+  ;; Map window bindings to "SPC 1" through "SPC 9"
   "w 0" #'treemacs-select-window
   "0" #'treemacs-select-window
   "1" #'winum-select-window-1
@@ -264,7 +268,21 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   "8" #'winum-select-window-8
   "9" #'winum-select-window-9
 
+  ;; Replace M-x binding with something more useful
+
+  "w :" nil
+  :desc "Ex"
+    ":" #'evil-ex
+
+  :desc "Move workspace left"
+    "TAB h" #'+workspace/swap-left
+  :desc "Move workspace right"
+    "TAB l" #'+workspace/swap-right
+
   :desc "Calendar"
-    "o c" #'cfw:open-org-calendar
+    "o c" #'+calendar/open-calendar
   :desc "Journal"
     "o j" #'+org/org-journal-open-latest)
+
+(map! :map evil-emacs-state-map
+  "\\" #'evil-execute-in-normal-state)

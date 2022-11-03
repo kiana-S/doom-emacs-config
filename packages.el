@@ -9,6 +9,9 @@
 (package! pinentry)
 (package! evil-goggles)
 
+(package! flycheck :disable t)
+(package! flyspell :disable t)
+
 ;; Idris 2 mode
 (package! idris2-mode
   :recipe (:host github :repo "idris-community/idris2-mode"))
