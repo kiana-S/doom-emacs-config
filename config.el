@@ -84,6 +84,7 @@
 ;; they are implemented.
 
 (map! :map evil-normal-state-map "q" nil)
+(setq-default evil-shift-width 2)
 
 (after! treemacs
   (setq-default treemacs-read-string-input 'from-minibuffer))
@@ -110,12 +111,15 @@
           ("e" "Event" entry (file+headline "~/org/events.org" "Events")
            "* %^T %?" :empty-lines 1)
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
-           "* %^t %?" :empty-lines 1))))
+           "* %^t %?" :empty-lines 1)
+          ("p" "Project" entry (file+headline "~/org/projects.org" "Backlog")
+           "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1))))
+
 (map! :localleader
-  :after org
-  :map org-mode-map
-  "C" #'org-columns
-  "c D" #'org-clock-display)
+      :after org
+      :map org-mode-map
+      "C" #'org-columns
+      "c D" #'org-clock-display)
 
 (after! org-journal
   (setq-default org-journal-file-format "%Y-%m-%d"
