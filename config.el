@@ -133,6 +133,13 @@
            (car (last (seq-filter #'file-regular-p
              (directory-files org-journal-dir 'full))))))
 
+;; This seems to have broken on Doom Emacs's side for some reason?
+(after! git-gutter-fringe
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+
 (use-package! pinentry
   :init (setq epg-pinentry-mode `loopback)
         (pinentry-start))
