@@ -282,6 +282,10 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
       [remap dired-find-file]    #'+dired/find-alt-file-for-directories
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 
+(setq calc-highlight-selections-with-faces t)
+(custom-set-faces!
+  `(calc-selected-face :weight extra-bold :foreground ,(doom-color 'highlight))
+  `(calc-nonselected-face :weight semi-light :foreground ,(doom-color 'comments)))
 
 ;; General keybindings
 (map! :leader
