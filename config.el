@@ -112,7 +112,7 @@
            "* %^T %?" :empty-lines 1)
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
            "* %^t %?" :empty-lines 1)
-          ("p" "Project" entry (file+headline "~/org/projects.org" "Backlog")
+          ("p" "Project" entry (file "~/org/projects.org")
            "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1))))
 
 (map! :localleader
@@ -190,30 +190,31 @@
   (set-repl-handler! 'idris2-mode 'idris2-pop-to-repl)
   (set-lookup-handlers! 'idris2-mode
     :definition #'+idris2/jump-to-definition
-    :documentation #'+idris2/jump-to-definition)
-  ;; Close windows instead of killing buffers
-  (map! :after idris2-mode :map idris2-compiler-notes-mode-map "q" #'quit-window)
-  (map! :after idris2-mode :map idris2-info-mode-map "q" #'quit-window)
-  (map! :after idris2-mode :map idris2-hole-list-mode-map "q" #'quit-window)
-  (map! :localleader
-        :after idris2-mode
-        :map idris2-mode-map
-        "q" #'idris2-quit
-        "l" #'idris2-load-file
-        "t" #'idris2-type-at-point
-        "a" #'idris2-add-clause
-        "e" #'idris2-make-lemma
-        "c" #'idris2-case-dwim
-        "w" #'idris2-make-with-block
-        "m" #'idris2-add-missing
-        "p" #'idris2-proof-search
-        "h" #'idris2-docs-at-point
-        "d" #'+idris2/jump-to-definition
-        "i" '(:ignore t :which-key "ipkg")
-        "i f" #'idris2-open-package-file
-        "i b" #'idris2-ipkg-build
-        "i c" #'idris2-ipkg-clean
-        "i i" #'idris2-ipkg-install))
+    :documentation #'+idris2/jump-to-definition))
+
+;; Close windows instead of killing buffers
+(map! :after idris2-mode :map idris2-compiler-notes-mode-map :n "q" #'quit-window)
+(map! :after idris2-mode :map idris2-info-mode-map :n "q" #'quit-window)
+(map! :after idris2-mode :map idris2-hole-list-mode-map :n "q" #'quit-window)
+(map! :localleader
+      :after idris2-mode
+      :map idris2-mode-map
+      "q" #'idris2-quit
+      "l" #'idris2-load-file
+      "t" #'idris2-type-at-point
+      "a" #'idris2-add-clause
+      "e" #'idris2-make-lemma
+      "c" #'idris2-case-dwim
+      "w" #'idris2-make-with-block
+      "m" #'idris2-add-missing
+      "p" #'idris2-proof-search
+      "h" #'idris2-docs-at-point
+      "d" #'+idris2/jump-to-definition
+      (:prefix ("i" . "ipkg")
+               "i f" #'idris2-open-package-file
+               " i b" #'idris2-ipkg-build
+               "i c" #'idris2-ipkg-clean
+               "i i" #'idris2-ipkg-install))
 
 
 (defun +idris2/jump-to-definition ()
@@ -277,7 +278,7 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
           (find-alternate-file file))
       (find-file file))))
 
-(map! :after dired :map dired-mode-map
+(map! :mode dired-mode :after dired
       [remap dired-find-file]    #'+dired/find-alt-file-for-directories
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 

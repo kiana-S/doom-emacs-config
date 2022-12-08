@@ -12,6 +12,9 @@
 (package! flycheck :disable t)
 (package! flyspell :disable t)
 
+;; Override pin on treemacs package to get bug fixes
+(unpin! treemacs)
+
 ;; Idris 2 mode
 (package! idris2-mode
   :recipe (:host github :repo "idris-community/idris2-mode"))
