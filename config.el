@@ -50,6 +50,9 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+;; Load org config
+(load! "org.el")
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -93,47 +96,6 @@
 
 (after! dired-mode
   (setq-default dired-kill-when-opening-new-dired-buffer t))
-
-(after! org
-  (setq-default org-cycle-emulate-tab nil
-                org-attach-dir-relative t
-                org-log-into-drawer t)
-  (setq org-capture-templates
-        '(("t" "Task")
-          ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
-           "* TODO %?" :empty-lines 1)
-          ("td" "Task with Deadline" entry (file+headline "~/org/events.org" "Tasks")
-           "* TODO %?\nDEADLINE: %^{Deadline}T" :empty-lines 1)
-          ("tD" "Task with Deadline (date only)" entry (file+headline "~/org/events.org" "Tasks")
-           "* TODO %?\nDEADLINE: %^{Deadline}t" :empty-lines 1)
-          ("ts" "Scheduled Task" entry (file+headline "~/org/events.org" "Tasks")
-           "* TODO %?\nSCHEDULED: %^{Time}T" :empty-lines 1)
-          ("tS" "Scheduled Task (date only)" entry (file+headline "~/org/events.org" "Tasks")
-           "* TODO %?\nSCHEDULED: %^{Date}t" :empty-lines 1)
-          ("e" "Event" entry (file+headline "~/org/events.org" "Events")
-           "* %^T %?" :empty-lines 1)
-          ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
-           "* %^t %?" :empty-lines 1)
-          ("p" "Project" entry (file "~/org/projects.org")
-           "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1))))
-
-(map! :localleader
-      :after org
-      :map org-mode-map
-      "C" #'org-columns
-      "c D" #'org-clock-display)
-
-(after! org-journal
-  (setq-default org-journal-file-format "%Y-%m-%d"
-                org-extend-today-until 4
-                org-journal-hide-entries-p nil))
-
-(defun +org/org-journal-open-latest ()
-  (interactive)
-  (require 'org-journal)
-  (funcall org-journal-find-file
-           (car (last (seq-filter #'file-regular-p
-             (directory-files org-journal-dir 'full))))))
 
 ;; This seems to have broken on Doom Emacs's side for some reason?
 (after! git-gutter-fringe
