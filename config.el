@@ -83,7 +83,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(map! :map evil-normal-state-map "q" nil)
+(map! :map evil-normal-state-map
+      "q" nil
+      "C-q" #'evil-record-macro)
 (setq-default evil-shift-width 2)
 
 (after! treemacs
@@ -211,10 +213,10 @@
       "h" #'idris2-docs-at-point
       "d" #'+idris2/jump-to-definition
       (:prefix ("i" . "ipkg")
-               "i f" #'idris2-open-package-file
-               " i b" #'idris2-ipkg-build
-               "i c" #'idris2-ipkg-clean
-               "i i" #'idris2-ipkg-install))
+               "f" #'idris2-open-package-file
+               "b" #'idris2-ipkg-build
+               "c" #'idris2-ipkg-clean
+               "i" #'idris2-ipkg-install))
 
 
 (defun +idris2/jump-to-definition ()
@@ -282,6 +284,15 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
       [remap dired-find-file]    #'+dired/find-alt-file-for-directories
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 
+(defun create-new-project (dir &optional parents)
+  "Create a new directory and add it to the list of known projects."
+  (interactive (list (read-directory-name "Create new project: ") t))
+  (make-directory dir parents)
+  (let ((default-directory dir))
+    (shell-command "git init"))
+  (projectile-add-known-project dir))
+
+
 (setq calc-highlight-selections-with-faces t)
 (custom-set-faces!
   `(calc-selected-face :weight extra-bold :foreground ,(doom-color 'highlight))
@@ -313,8 +324,10 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   :desc "Select window 9"
     "9" #'winum-select-window-9
 
-  ;; Replace M-x binding with something more useful
+  :desc "Create new project"
+    "p n" #'create-new-project
 
+  ;; Replace M-x binding with something more useful
   "w :" nil
   :desc "Ex"
     ":" #'evil-ex
