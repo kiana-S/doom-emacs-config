@@ -302,7 +302,11 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   :desc "Calendar"
     "o c" #'+calendar/open-calendar
   :desc "Journal"
-    "o j" #'+org/org-journal-open-latest)
+    "o j" #'+org/org-journal-open-latest
+
+  "o A" nil
+  :desc "Org agenda"
+    "o a" #'org-agenda)
 
 (map! :map evil-emacs-state-map
   "\\" #'evil-execute-in-normal-state)

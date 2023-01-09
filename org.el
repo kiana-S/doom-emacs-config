@@ -57,7 +57,7 @@
                               "#+title: ${title}\n")
            :unnarrowed t)
           ("n" "Course Notes" entry "* %u\n\n%?"
-           :target (file+head+olp "%(read-directory-name \"Directory: \" org-roam-directory)%<%Y%m%d%H%M%S>-${slug}.org"
+           :target (file+head+olp "courses/%<%Y%m%d%H%M%S>-${slug}.org"
                                   "#+title: ${title}\n"
                                   ("Notes"))
            :empty-lines 1))))
