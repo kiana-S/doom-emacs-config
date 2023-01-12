@@ -89,7 +89,11 @@
 (map! :map evil-normal-state-map
       "q" nil
       "C-q" #'evil-record-macro)
-(setq-default evil-shift-width 2)
+(setq-default evil-shift-width 2
+              evil-auto-indent nil)
+
+;; Enable all commands
+(setq disabled-command-function nil)
 
 (after! treemacs
   (setq-default treemacs-read-string-input 'from-minibuffer))
@@ -105,7 +109,7 @@
 
 
 (use-package! pinentry
-  :init (setq epg-pinentry-mode `loopback)
+  :init (setq epg-pinentry-mode 'loopback)
         (pinentry-start))
 
 (use-package! evil-goggles
