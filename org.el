@@ -54,10 +54,10 @@
   (setq org-roam-capture-templates
         '(("d" "Default" plain "%?"
            :target (file+head "%(read-directory-name \"Directory: \" org-roam-directory)%<%Y%m%d%H%M%S>-${slug}.org"
-                              "#+title: ${title}\n")
+                              "#+title: ${title}\n\n")
            :unnarrowed t)
           ("n" "Course Notes" entry "* %u\n\n%?"
            :target (file+head+olp "courses/%<%Y%m%d%H%M%S>-${slug}.org"
-                                  "#+title: ${title}\n"
+                                  "#+title: ${title}\n\n"
                                   ("Notes"))
            :empty-lines 1))))
