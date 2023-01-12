@@ -207,7 +207,7 @@
 
 ;; Fixes lag when editing idris code with evil
 (defun ~/evil-motion-range--wrapper (fn &rest args)
-  "Like 'evil-motion-range', but override field-beginning for performance.
+  "Like 'evil-motion-range', but override 'field-beginning' for performance.
 See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   (cl-letf (((symbol-function 'field-beginning)
              (lambda (&rest _) 1)))
@@ -225,19 +225,23 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
         highlight-indent-guides-auto-character-face-perc 15
         highlight-indent-guides-auto-top-character-face-perc 45))
 
+;; Flymake
+(add-hook! prog-mode #'flymake-mode)
+(setq-hook! flymake-mode next-error-function #'flymake-goto-next-error)
 (after! lsp-mode
   (setq lsp-diagnostics-provider :flymake))
 
+
 ;; Dired
 (defun +dired/up-directory-alternative ()
-  "Use single instance of dired buffer when going up a directory."
+  "Use single instance of Dired buffer when going up a directory."
   (interactive)
   (set-buffer-modified-p nil)
   (let ((up (file-name-directory (directory-file-name (dired-current-directory)))))
     (or (dired-goto-subdir up) (find-alternate-file up))))
 
 (defun +dired/find-alt-file-for-directories ()
-  "Use single instance of dired buffer when opening files."
+  "Use single instance of Dired buffer when opening files."
   (interactive)
   (let ((file (dired-get-file-for-visit)))
     (if (file-directory-p file)
