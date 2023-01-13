@@ -83,20 +83,21 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(map! :map evil-normal-state-map
-      "q" nil
-      "C-q" #'evil-record-macro)
-(setq-default evil-shift-width 2
+(setq-default tab-width 2
+              evil-shift-width 2
               evil-auto-indent nil)
 
 ;; Enable all commands
 (setq disabled-command-function nil)
 
 (after! treemacs
-  (setq-default treemacs-read-string-input 'from-minibuffer))
+  (setq treemacs-read-string-input 'from-minibuffer))
 
 (after! dired-mode
-  (setq-default dired-kill-when-opening-new-dired-buffer t))
+  (setq dired-kill-when-opening-new-dired-buffer t))
+
+(after! eldoc
+  (setq eldoc-documentation-strategy 'eldoc-documentation-compose))
 
 ;; This seems to have broken on Doom Emacs's side for some reason?
 (after! git-gutter-fringe
@@ -112,9 +113,9 @@
 (use-package! evil-goggles
   :hook (doom-first-input . evil-goggles-mode)
   :init
-  (setq-default evil-goggles-duration 0.15
-                evil-goggles-blocking-duration 0.12
-                evil-goggles-async-duration 0.2)
+  (setq evil-goggles-duration 0.15
+        evil-goggles-blocking-duration 0.12
+        evil-goggles-async-duration 0.2)
   :config
   (pushnew! evil-goggles--commands
             '(evil-magit-yank-whole-line
@@ -142,7 +143,7 @@
 
 
 (after! evil-escape
-  (setq-default evil-escape-key-sequence "fd"))
+  (setq evil-escape-key-sequence "fd"))
 
 ;; Idris 2
 (after! idris2-mode
@@ -157,10 +158,6 @@
     :definition #'+idris2/jump-to-definition
     :documentation #'+idris2/jump-to-definition))
 
-;; Close windows instead of killing buffers
-(map! :after idris2-mode :map idris2-compiler-notes-mode-map :n "q" #'quit-window)
-(map! :after idris2-mode :map idris2-info-mode-map :n "q" #'quit-window)
-(map! :after idris2-mode :map idris2-hole-list-mode-map :n "q" #'quit-window)
 (map! :localleader
       :after idris2-mode
       :map idris2-mode-map
@@ -252,7 +249,7 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 
 (defun create-new-project (dir &optional parents)
-  "Create a new directory and add it to the list of known projects."
+  "Create a new git directory and add it to the list of known projects."
   (interactive (list (read-directory-name "Create new project: ") t))
   (make-directory dir parents)
   (let ((default-directory dir))
@@ -266,6 +263,16 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
   `(calc-nonselected-face :weight semi-light :foreground ,(doom-color 'comments)))
 
 
+;; Declare popup rules
+
+(set-popup-rules!
+  '(("^\\*Flymake diagnostics for .+\\*$" :side bottom :size 0.25))
+  '(("^\\*idris2-repl\\*$" :side bottom :size 0.16)
+    ("^\\*idris2-info\\*$" :side bottom :size +popup-shrink-to-fit :vslot 1)
+    ("^\\*idris2-notes\\*$" :side right :size 80 :slot 1)
+    ("^\\*idris2-holes\\*$" :side right :size 80 :slot 2)))
+
+
 ;; Load extra files
-(load! "org.el")
 (load! "bindings.el")
+(load! "org.el")
