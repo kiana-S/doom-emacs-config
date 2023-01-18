@@ -225,6 +225,12 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
 (after! lsp-mode
   (setq lsp-diagnostics-provider :flymake))
 
+;; Use Flycheck's double arrow fringe indicator
+(after! flymake
+  (define-fringe-bitmap 'flymake-double-arrow [216 108 54 27 54 108 216])
+  (setf (car flymake-error-bitmap) 'flymake-double-arrow
+        (car flymake-warning-bitmap) 'flymake-double-arrow
+        (car flymake-note-bitmap) 'flymake-double-arrow))
 
 ;; Dired
 (defun +dired/up-directory-alternative ()
