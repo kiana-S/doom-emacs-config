@@ -222,8 +222,6 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
 ;; Flymake
 (add-hook! prog-mode #'flymake-mode)
 (setq-hook! flymake-mode next-error-function #'flymake-goto-next-error)
-(after! lsp-mode
-  (setq lsp-diagnostics-provider :flymake))
 
 ;; Use Flycheck's double arrow fringe indicator
 (after! flymake
