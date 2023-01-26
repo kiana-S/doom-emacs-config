@@ -87,8 +87,8 @@
               evil-shift-width 2
               evil-auto-indent nil)
 
-;; Enable all commands
-(setq disabled-command-function nil)
+(setq disabled-command-function nil
+      compile-command "nix build")
 
 (after! treemacs
   (setq treemacs-read-string-input 'from-minibuffer))
