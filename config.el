@@ -145,6 +145,9 @@
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
 
+(after! haskell-mode
+  (custom-set-faces! '(haskell-operator-face :slant normal)))
+
 ;; Idris 2
 (after! idris2-mode
   (custom-set-faces! '(idris2-operator-face :slant normal :inherit font-lock-variable-name-face))
