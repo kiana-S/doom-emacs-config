@@ -217,13 +217,7 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
 
 
 ;; Declare popup rules
-
-(set-popup-rules!
-  '(("^\\*Flymake diagnostics for .+\\*$" :side bottom :size 0.25))
-  '(("^\\*idris2-repl\\*$" :side bottom :size 0.16)
-    ("^\\*idris2-info\\*$" :side bottom :size +popup-shrink-to-fit :vslot 1)
-    ("^\\*idris2-notes\\*$" :side right :size 80 :slot 1)
-    ("^\\*idris2-holes\\*$" :side right :size 80 :slot 2)))
+(set-popup-rule! "^\\*Flymake diagnostics for .+\\*$" :side 'bottom :size 0.25)
 
 
 ;; Load extra files

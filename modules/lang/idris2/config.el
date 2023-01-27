@@ -41,3 +41,11 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
     (apply fn args)))
 
 (advice-add #'evil-motion-range :around #'+idris2/evil-motion-range--wrapper)
+
+
+;; Popup rules
+(set-popup-rules!
+  '(("^\\*idris2-repl\\*$" :side bottom :size 0.16)
+    ("^\\*idris2-info\\*$" :side bottom :size +popup-shrink-to-fit :vslot 1)
+    ("^\\*idris2-notes\\*$" :side right :size 80 :slot 1)
+    ("^\\*idris2-holes\\*$" :side right :size 80 :slot 2)))
