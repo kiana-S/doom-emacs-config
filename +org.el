@@ -1,4 +1,4 @@
-;;; $DOOMDIR/org.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
 ;;; Org config

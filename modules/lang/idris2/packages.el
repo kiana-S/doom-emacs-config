@@ -1,4 +1,5 @@
-;;; lang/idris2/packages.el -*- lexical-binding: t; -*-
+;; -*- no-byte-compile: t; -*-
+;;; lang/idris2/packages.el
 
 
 (package! idris2-mode

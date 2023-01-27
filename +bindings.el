@@ -1,4 +1,4 @@
-;;; $DOOMDIR/bindings.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/+bindings.el -*- lexical-binding: t; -*-
 
 
 ;; General keybindings

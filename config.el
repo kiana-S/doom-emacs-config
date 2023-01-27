@@ -227,5 +227,5 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
 
 
 ;; Load extra files
-(load! "bindings")
-(load! "org")
+(load! "+bindings")
+(load! "+org")
