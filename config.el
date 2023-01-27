@@ -99,6 +99,12 @@
 (after! eldoc
   (setq eldoc-documentation-strategy 'eldoc-documentation-compose))
 
+(after! calfw
+  ;; Start week on Monday
+  (setq calendar-week-start-day 1)
+  (setq cfw:org-face-agenda-item-foreground-color (doom-color 'magenta)))
+
+
 ;; This seems to have broken on Doom Emacs's side for some reason?
 (after! git-gutter-fringe
   (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))

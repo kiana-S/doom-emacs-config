@@ -41,7 +41,7 @@
     "TAB l" #'+workspace/swap-right
 
   :desc "Calendar"
-    "o c" #'+calendar/open-calendar
+    "o c" #'cfw:open-org-calendar
   :desc "Journal"
     "o j" #'+org/org-journal-open-latest
 
