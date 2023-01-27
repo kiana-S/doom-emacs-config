@@ -233,6 +233,12 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
         (car flymake-warning-bitmap) 'flymake-double-arrow
         (car flymake-note-bitmap) 'flymake-double-arrow))
 
+;; Configuration for flymake-popon
+(add-hook! flymake-mode #'flymake-popon-mode)
+(after! flymake-popon
+  (setq flymake-popon-width 120)
+  (set-face-foreground 'flymake-popon-posframe-border (doom-color 'selection)))
+
 ;; Dired
 (defun +dired/up-directory-alternative ()
   "Use single instance of Dired buffer when going up a directory."
@@ -256,7 +262,9 @@ See URL 'https://github.com/ProofGeneral/PG/issues/427'."
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 
 (defun create-new-project (dir &optional parents)
-  "Create a new git directory and add it to the list of known projects."
+  "Create a new git directory DIR and add it to the list of known projects.
+
+If PARENTS is non-nil, the parents of the specified directory will also be created."
   (interactive (list (read-directory-name "Create new project: ") t))
   (make-directory dir parents)
   (let ((default-directory dir))
