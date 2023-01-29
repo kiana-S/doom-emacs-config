@@ -176,6 +176,7 @@
 (after! flymake-popon
   (setq flymake-popon-width 120)
   (set-face-foreground 'flymake-popon-posframe-border (doom-color 'selection)))
+(custom-set-faces! '(compilation-warning :slant normal))
 
 ;; Dired
 (defun +dired/up-directory-alternative ()
