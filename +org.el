@@ -1,6 +1,10 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
+(defun ~/disable-line-numbers ()
+  (setq-local display-line-numbers nil))
+
+
 ;;; Org config
 
 (after! org
@@ -24,7 +28,32 @@
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
            "* %^t %?" :empty-lines 1)
           ("p" "Project" entry (file "~/org/projects.org")
-           "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1))))
+           "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1)))
+  ;; Customize appearance
+  (setq org-hide-emphasis-markers t
+        org-hide-leading-stars nil)
+
+  ;; Face customization - not sure about this...
+  ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
+  ;;                    '(org-level-3 :height 1.2 :inherit outline-3)
+  ;;                    '(org-level-2 :height 1.3 :inherit outline-2)
+  ;;                    '(org-level-1 :height 1.5 :inherit outline-1)
+  ;;                    '(org-document-title :height 1.75)
+  ;;                    '(org-document-info :height 1.4)
+
+  ;;                    '(org-block :inherit fixed-pitch)
+  ;;                    '(org-drawer :inherit fixed-pitch)
+  ;;                    '(org-document-info-keyword :inherit fixed-pitch)
+  ;;                    '(org-link :foreground "royal blue" :underline t)
+  ;;                    '(org-meta-line :inherit fixed-pitch)
+  ;;                    '(org-property-value :inherit fixed-pitch)
+  ;;                    '(org-special-keyword :inherit fixed-pitch)
+  ;;                    '(org-table :inherit fixed-pitch)
+  ;;                    '(org-tag :inherit fixed-pitch :weight bold :size 12)
+  ;;                    '(org-verbatim :inherit fixed-pitch)
+  ;;                    '(org-date :inherit fixed-pitch))
+)
+;; (add-hook! org-mode #'variable-pitch-mode #'~/disable-line-numbers)
 
 (map! :localleader
       :after org
@@ -54,10 +83,10 @@
   (setq org-roam-capture-templates
         '(("d" "Default" plain "%?"
            :target (file+head "%(read-directory-name \"Directory: \" org-roam-directory)%<%Y%m%d%H%M%S>-${slug}.org"
-                              "#+title: ${title}\n\n")
+                              "#+TITLE: ${title}\n\n")
            :unnarrowed t)
           ("n" "Course Notes" entry "* %u\n\n%?"
            :target (file+head+olp "courses/%<%Y%m%d%H%M%S>-${slug}.org"
-                                  "#+title: ${title}\n\n"
+                                  "#+TITLE: ${title}\n\n"
                                   ("Notes"))
            :empty-lines 1))))
