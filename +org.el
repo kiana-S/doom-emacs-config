@@ -8,9 +8,9 @@
 ;;; Org config
 
 (after! org
-  (setq-default org-cycle-emulate-tab nil
-                org-attach-dir-relative t
-                org-log-into-drawer t)
+  (setq org-cycle-emulate-tab nil
+        org-attach-dir-relative t
+        org-log-into-drawer t)
   (setq org-capture-templates
         '(("t" "Task")
           ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
@@ -31,7 +31,10 @@
            "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1)))
   ;; Customize appearance
   (setq org-hide-emphasis-markers t
-        org-hide-leading-stars nil)
+        org-hide-leading-stars nil
+        org-superstar-item-bullet-alist '((42 . 8226)
+                                          (43 . 8226)
+                                          (45 . 8226)))
 
   ;; Face customization - not sure about this...
   ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
@@ -83,10 +86,26 @@
   (setq org-roam-capture-templates
         '(("d" "Default" plain "%?"
            :target (file+head "%(read-directory-name \"Directory: \" org-roam-directory)%<%Y%m%d%H%M%S>-${slug}.org"
-                              "#+TITLE: ${title}\n\n")
+                              "#+title: ${title}\n\n")
            :unnarrowed t)
           ("n" "Course Notes" entry "* %u\n\n%?"
            :target (file+head+olp "courses/%<%Y%m%d%H%M%S>-${slug}.org"
-                                  "#+TITLE: ${title}\n\n"
+                                  "#+title: ${title}\n\n"
                                   ("Notes"))
            :empty-lines 1))))
+
+;; Projectile link type
+
+
+(defun org-projectile-follow (path _)
+  "Open a projectile link to PATH."
+  (projectile-switch-project-by-name path))
+
+(defun org-projectile-completion (&optional arg)
+  (let ((project (completing-read "Project: " projectile-known-projects nil 'confirm)))
+    (concat "projectile:" project)))
+
+(after! org
+  (org-link-set-parameters "projectile"
+                           :follow #'org-projectile-follow
+                           :complete #'org-projectile-completion))
