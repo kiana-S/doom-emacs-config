@@ -10,7 +10,8 @@
 (after! org
   (setq org-cycle-emulate-tab nil
         org-attach-dir-relative t
-        org-log-into-drawer t)
+        org-log-into-drawer t
+        org-footnote-auto-label 'confirm)
   (setq org-capture-templates
         '(("t" "Task")
           ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
@@ -62,7 +63,9 @@
       :after org
       :map org-mode-map
       "C" #'org-columns
-      "c D" #'org-clock-display)
+      "c D" #'org-clock-display
+      "m b f" #'org-table-eval-formula
+      "m b F" #'org-table-edit-formulas)
 
 
 ;;; Org journal
