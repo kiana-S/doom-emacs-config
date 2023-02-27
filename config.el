@@ -200,14 +200,29 @@
       [remap dired-find-file]    #'+dired/find-alt-file-for-directories
       [remap dired-up-directory] #'+dired/up-directory-alternative)
 
-(defun create-new-project (dir &optional parents)
-  "Create a new git directory DIR and add it to the list of known projects.
+(defun create-new-project (dir &optional type parents)
+  "Create a new directory DIR and add it to the list of known projects.
+
+TYPE specifies the type of project to create. It can take the following values:
+- git creates a new Git repository.
+- projectile creates a .projectile file in the project root.
+- A string, which is used as a filename to create in the project root.
+- A function, which is called with no arguments inside the root of the project.
+If nil, then a Git repository is created by default.
 
 If PARENTS is non-nil, the parents of the specified directory will also be created."
-  (interactive (list (read-directory-name "Create new project: ") t))
+  (interactive (list (read-directory-name "Create new project: ") nil t))
   (make-directory dir parents)
   (let ((default-directory dir))
-    (shell-command "git init"))
+    (pcase type
+      ((or 'git 'nil)
+       (shell-command "git init"))
+      ('projectile
+       (make-empty-file ".projectile"))
+      ((pred stringp)
+       (make-empty-file type))
+      ((pred functionp)
+       (funcall type))))
   (projectile-add-known-project dir))
 
 
