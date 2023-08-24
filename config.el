@@ -21,13 +21,14 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "VictorMono" :size 12 :weight 'semi-bold))
-(setq doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 16 :weight 'regular))
+(setq doom-font (font-spec :family "VictorMono" :size 13)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 16)
+      nerd-icons-scale-factor 1.1
+      doom-modeline-height 24)
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-variable-name-face :slant italic))
-
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -157,8 +158,8 @@
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-character 9615
         highlight-indent-guides-responsive 'top
-        highlight-indent-guides-auto-character-face-perc 15
-        highlight-indent-guides-auto-top-character-face-perc 45))
+        highlight-indent-guides-auto-character-face-perc 50
+        highlight-indent-guides-auto-top-character-face-perc 90))
 
 ;; Flymake
 (add-hook! prog-mode #'flymake-mode)
