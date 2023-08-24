@@ -8,10 +8,14 @@
 ;;; Org config
 
 (after! org
-  (setq org-cycle-emulate-tab nil
+  (setq org-agenda-files '("~/org/" "~/org/roam/" "~/org/roam/courses/")
+        org-cycle-emulate-tab nil
         org-attach-dir-relative t
         org-log-into-drawer t
-        org-footnote-auto-label 'confirm)
+        org-footnote-auto-label 'confirm
+        org-agenda-span 'week
+        org-agenda-start-day nil
+        org-agenda-start-on-weekday 1)
   (setq org-capture-templates
         '(("t" "Task")
           ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
@@ -25,9 +29,9 @@
           ("tS" "Scheduled Task (date only)" entry (file+headline "~/org/events.org" "Tasks")
            "* TODO %?\nSCHEDULED: %^{Date}t" :empty-lines 1)
           ("e" "Event" entry (file+headline "~/org/events.org" "Events")
-           "* %^T %?" :empty-lines 1)
+           "* %?\n%^T" :empty-lines 1)
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
-           "* %^t %?" :empty-lines 1)
+           "* %?\n$^t" :empty-lines 1)
           ("p" "Project" entry (file "~/org/projects.org")
            "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1)))
   ;; Customize appearance
