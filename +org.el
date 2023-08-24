@@ -112,7 +112,13 @@
   (let ((project (completing-read "Project: " projectile-known-projects nil 'confirm)))
     (concat "projectile:" project)))
 
+(defun org-roam-completion (&optional arg)
+  (let ((node (org-roam-node-read nil nil nil t)))
+    (concat "id:" (org-roam-node-id node))))
+
 (after! org
   (org-link-set-parameters "projectile"
                            :follow #'org-projectile-follow
-                           :complete #'org-projectile-completion))
+                           :complete #'org-projectile-completion)
+  (org-link-set-parameters "roam"
+                           :complete #'org-roam-completion))
