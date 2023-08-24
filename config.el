@@ -84,9 +84,7 @@
 (setq disabled-command-function nil
       compile-command "nix build")
 
-(setq +treemacs-git-mode 'deferred)
 (after! treemacs
-  (require 'treemacs-extensions)
   (setq treemacs-read-string-input 'from-minibuffer))
 
 (after! dired-mode
