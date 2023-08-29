@@ -259,10 +259,12 @@ With a prefix arg INVALIDATE-CACHE invalidates the cache first."
     (projectile--find-file invalidate-cache)))
 
 
-(setq calc-highlight-selections-with-faces t)
-(custom-set-faces!
-  `(calc-selected-face :weight extra-bold :foreground ,(doom-color 'highlight))
-  `(calc-nonselected-face :weight semi-light :foreground ,(doom-color 'comments)))
+(after! calc
+  (setq calc-highlight-selections-with-faces t
+        calc-show-selections nil)
+  (custom-set-faces!
+    `(calc-selected-face :weight extra-bold :foreground ,(doom-color 'highlight))
+    `(calc-nonselected-face :weight semi-light :foreground ,(doom-color 'comments))))
 
 
 ;; Declare popup rules
