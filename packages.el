@@ -7,7 +7,6 @@
 
 
 (package! pinentry)
-(package! evil-goggles)
 
 (package! flycheck :disable t)
 (package! flyspell :disable t)
