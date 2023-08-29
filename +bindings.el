@@ -61,3 +61,11 @@
 (map! :map evil-normal-state-map
       "q" nil
       "C-q" #'evil-record-macro)
+
+;; calc mode
+(defadvice! ~/evil-collection-calc-bindings ()
+  :after #'evil-collection-calc-setup
+  (map! :map calc-mode-map
+    :n "C-r" #'calc-redo
+    :n "[" #'calc-begin-vector
+    :n "]" #'calc-end-vector))

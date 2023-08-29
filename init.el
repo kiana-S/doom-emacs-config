@@ -95,7 +95,7 @@
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
-       lookup              ; navigate your code and its documentation
+       (lookup +docsets)   ; navigate your code and its documentation
        lsp               ; M-x vscode
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
@@ -204,3 +204,26 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+
+;; Enable evil-collection-calc
+(setq +evil-collection-disabled-list
+    '(anaconda-mode
+      buff-menu
+      comint
+      company
+      custom
+      eldoc
+      elisp-mode
+      ert
+      free-keys
+      helm
+      help
+      indent
+      image
+      kotlin-mode
+      outline
+      replace
+      shortdoc
+      simple
+      slime
+      lispy))
