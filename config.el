@@ -85,8 +85,13 @@
 (setq disabled-command-function nil
       compile-command "nix build")
 
-(after! treemacs
-  (setq treemacs-read-string-input 'from-minibuffer))
+(use-package! treemacs
+  :init
+  (setq +treemacs-git-mode 'deferred
+        treemacs-python-executable "/home/kiana/.emacs.d/python3-bin/bin/python")
+  :config
+  (setq treemacs-read-string-input 'from-minibuffer
+        treemacs-select-when-already-in-treemacs 'stay))
 
 (after! dired-mode
   (setq dired-kill-when-opening-new-dired-buffer t))
