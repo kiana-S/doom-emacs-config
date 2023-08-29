@@ -49,6 +49,8 @@
   :desc "Org agenda"
     "o a" #'org-agenda
 
+  :desc "Select LSP code lens"
+    "c L" #'lsp-avy-lens
   :desc "Open errors buffer"
     "c X" #'flymake-show-buffer-diagnostics)
 

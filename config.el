@@ -165,6 +165,7 @@
 (add-hook! prog-mode #'flymake-mode)
 (setq-hook! flymake-mode next-error-function #'flymake-goto-next-error)
 (after! lsp-mode
+  (require 'avy) ; Needed for code lens selection
   (setq lsp-diagnostics-provider :flymake))
 
 ;; Use Flycheck's double arrow fringe indicator
