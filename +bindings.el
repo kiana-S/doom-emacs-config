@@ -52,7 +52,10 @@
   :desc "Select LSP code lens"
     "c L" #'lsp-avy-lens
   :desc "Open errors buffer"
-    "c X" #'flymake-show-buffer-diagnostics)
+    "c X" #'flymake-show-buffer-diagnostics
+
+  :desc "Open URL"
+    "s u" #'goto-address-at-point)
 
 ;; Rebind macro key
 (map! :map evil-normal-state-map
