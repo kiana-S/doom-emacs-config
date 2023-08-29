@@ -1,10 +1,6 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
 
-(defun ~/disable-line-numbers ()
-  (setq-local display-line-numbers nil))
-
-
 ;;; Org config
 
 (after! org
@@ -61,7 +57,8 @@
   ;;                    '(org-verbatim :inherit fixed-pitch)
   ;;                    '(org-date :inherit fixed-pitch))
 )
-;; (add-hook! org-mode #'variable-pitch-mode #'~/disable-line-numbers)
+;; (add-hook! org-mode #'variable-pitch-mode
+;;                     (lambda () (setq-local display-line-numbers nil)))
 
 (map! :localleader
       :after org
