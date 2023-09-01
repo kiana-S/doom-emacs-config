@@ -237,7 +237,8 @@ With a prefix arg INVALIDATE-CACHE invalidates the cache first."
 
 (after! calc
   (setq calc-highlight-selections-with-faces t
-        calc-show-selections nil)
+        calc-show-selections nil
+        calc-window-height 13)
   (custom-set-faces!
     `(calc-selected-face :weight extra-bold :foreground ,(doom-color 'highlight))
     `(calc-nonselected-face :weight semi-light :foreground ,(doom-color 'comments))))
