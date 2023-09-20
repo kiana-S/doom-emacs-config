@@ -102,7 +102,9 @@
       "C" #'org-columns
       "c D" #'org-clock-display
       "m b f" #'org-table-eval-formula
-      "m b F" #'org-table-edit-formulas)
+      "m b F" #'org-table-edit-formulas
+
+      "v" (lookup-key org-mode-map (kbd "C-c C-v")))
 
 
 ;;; Org journal
