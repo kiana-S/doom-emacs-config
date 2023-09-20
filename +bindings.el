@@ -61,50 +61,7 @@
     "c X" #'flymake-show-buffer-diagnostics
 
   :desc "Open URL"
-    "s u" #'goto-address-at-point
-
-  (:prefix ("#" . "calc")
-           :desc "Emacs Calc"
-             "#" #'calc
-           :desc "Emacs Calc"
-             "c" #'calc
-           :desc "Emacs Calc (full window)"
-             "C" #'full-calc
-           :desc "Quick Calc"
-             "q" #'quick-calc
-           :desc "Keypad"
-             "k" #'calc-keypad
-           :desc "Grab region into Calc"
-             "g" (lambda () (if (eq (evil-visual-type) 'block)
-                                (evil-grab-rectangle)
-                              (evil-grab-region)))
-           :desc "Paste from stack"
-             "y" #'calc-copy-to-buffer
-           :desc "Read keyboard macro"
-             "m" #'read-kbd-macro
-
-           (:prefix ("e" . "embedded")
-                    :desc "Embedded mode"
-                      "e" #'calc-embedded
-                    :desc "Embedded mode (select)"
-                      "s" #'calc-embedded-select
-                    :desc "Embedded mode (word)"
-                      "w" #'calc-embedded-word
-
-                    :desc "Activate special operators"
-                      "a" #'calc-embedded-activate
-                    :desc "Duplicate formula at point"
-                      "d" #'calc-embedded-duplicate
-                    :desc "New formula"
-                      "f" #'calc-embedded-new-formula
-                    :desc "Next formula"
-                      "j" #'calc-embedded-next
-                    :desc "Previous formula"
-                      "k" #'calc-embedded-previous
-                    :desc "Refresh formula at point"
-                      "r" #'calc-embedded-update-formula
-                    :desc "Edit formula at point"
-                      "`" #'calc-embedded-edit)))
+    "s u" #'goto-address-at-point)
 
 ;; Rebind macro key
 (map! :map evil-normal-state-map
@@ -118,3 +75,54 @@
     :n "C-r" #'calc-redo
     :n "[" #'calc-begin-vector
     :n "]" #'calc-end-vector))
+
+(defun ~/calc-grab-region (top bot &optional arg)
+  "Perform either `calc-grab-region' or `calc-grab-rectangle' depending on
+what type of visual state is currently active."
+  (interactive "r\nP")
+  (if (eq (evil-visual-type) 'block)
+      (calc-grab-rectangle top bot arg)
+    (calc-grab-region top bot arg)))
+
+
+(map! :leader
+  (:prefix ("#" . "calc")
+          :desc "Emacs Calc"
+            "#" #'calc
+          :desc "Emacs Calc"
+            "c" #'calc
+          :desc "Emacs Calc (full window)"
+            "C" #'full-calc
+          :desc "Quick Calc"
+            "q" #'quick-calc
+          :desc "Keypad"
+            "k" #'calc-keypad
+          :desc "Grab region into Calc"
+            "g" #'~/calc-grab-region
+          :desc "Paste from stack"
+            "y" #'calc-copy-to-buffer
+          :desc "Read keyboard macro"
+            "m" #'read-kbd-macro
+
+          (:prefix ("e" . "embedded")
+                  :desc "Embedded mode"
+                    "e" #'calc-embedded
+                  :desc "Embedded mode (select)"
+                    "s" #'calc-embedded-select
+                  :desc "Embedded mode (word)"
+                    "w" #'calc-embedded-word
+
+                  :desc "Activate special operators"
+                    "a" #'calc-embedded-activate
+                  :desc "Duplicate formula at point"
+                    "d" #'calc-embedded-duplicate
+                  :desc "New formula"
+                    "f" #'calc-embedded-new-formula
+                  :desc "Next formula"
+                    "j" #'calc-embedded-next
+                  :desc "Previous formula"
+                    "k" #'calc-embedded-previous
+                  :desc "Refresh formula at point"
+                    "r" #'calc-embedded-update-formula
+                  :desc "Edit formula at point"
+                    "`" #'calc-embedded-edit)))
