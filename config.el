@@ -246,6 +246,7 @@ With a prefix arg INVALIDATE-CACHE invalidates the cache first."
 
 ;; Declare popup rules
 (set-popup-rule! "^\\*Flymake diagnostics for .+\\*$" :side 'bottom :size 0.25)
+(set-popup-rule! "^\\*Agda information\\*$" :side 'bottom :size 0.2)
 
 
 ;; Load extra files
