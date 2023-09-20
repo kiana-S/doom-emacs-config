@@ -8,7 +8,7 @@
         org-attach-dir-relative t
         org-log-into-drawer t
         org-footnote-auto-label 'confirm
-        org-agenda-span 'week
+        org-agenda-span 'day
         org-agenda-start-day nil
         org-agenda-start-on-weekday 1)
   (setq org-capture-templates
