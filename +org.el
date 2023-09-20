@@ -107,12 +107,29 @@
       "v" (lookup-key org-mode-map (kbd "C-c C-v")))
 
 
+;; Exporting directory
+
+(after! org
+  (defvar org-export-dir "~/org/export/"
+    "The directory to export Org mode files to.
+
+If nil, then `default-directory' for the org buffer is used."))
+
+(defadvice! ~/modify-org-export-dir (orig-fn extension &optional subtreep pub-dir)
+    :around #'org-export-output-file-name
+  (unless pub-dir
+    (setq pub-dir org-export-dir))
+  (unless (file-directory-p pub-dir)
+    (make-directory pub-dir t))
+  (funcall orig-fn extension subtreep pub-dir))
+
+
 ;;; Org journal
 
 (after! org-journal
-  (setq-default org-journal-file-format "%Y-%m-%d"
-                org-extend-today-until 4
-                org-journal-hide-entries-p nil))
+  (setq org-journal-file-format "%Y-%m-%d"
+        org-extend-today-until 4
+        org-journal-hide-entries-p nil))
 
 (defun +org/org-journal-open-latest ()
   (interactive)
