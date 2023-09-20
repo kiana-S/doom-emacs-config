@@ -10,8 +10,19 @@
         org-footnote-auto-label 'confirm
         org-agenda-span 'day
         org-agenda-start-day nil
-        org-agenda-start-on-weekday 1)
-  (setq org-capture-templates
+        org-agenda-start-on-weekday 1
+
+        org-todo-keywords
+          '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "|" "DONE(d)")
+            (sequence "|" "KILL(k)"))
+        org-todo-keyword-faces
+          '(("STRT" . +org-todo-active)
+            ("WAIT" . +org-todo-onhold)
+            ("KILL" . +org-todo-cancel)
+            ("PROJ" . +org-todo-project)
+            ("WORK" . +org-todo-active)
+            ("HOLD" . +org-todo-onhold))
+        org-capture-templates
         '(("t" "Task")
           ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
            "* TODO %?" :empty-lines 1)
@@ -28,7 +39,8 @@
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
            "* %?\n$^t" :empty-lines 1)
           ("p" "Project" entry (file "~/org/projects.org")
-           "* %?\n:PROPERTIES:\n:Status:   Backlog\n:Created:  %U\n:END:" :empty-lines 1)))
+           "* PROJ %?\n:LOGBOOK:\n- Created                              %U\n:END:"
+           :empty-lines 1 :prepend t)))
   ;; Customize appearance
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars nil
