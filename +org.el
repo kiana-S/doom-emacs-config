@@ -4,8 +4,7 @@
 ;;; Org config
 
 (after! org
-  (setq org-agenda-files '("~/org/" "~/org/roam/" "~/org/roam/courses/")
-        org-cycle-emulate-tab nil
+  (setq org-cycle-emulate-tab nil
         org-attach-dir-relative t
         org-log-into-drawer t
         org-footnote-auto-label 'confirm
@@ -36,6 +35,7 @@
         org-superstar-item-bullet-alist '((42 . 8226)
                                           (43 . 8226)
                                           (45 . 8226)))
+  (~/org-agenda-files-update)
 
   ;; Face customization - not sure about this...
   ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
@@ -59,6 +59,42 @@
 )
 ;; (add-hook! org-mode #'variable-pitch-mode
 ;;                     (lambda () (setq-local display-line-numbers nil)))
+
+;; Org agenda
+
+(defun directory-dirs (dir)
+  "Find all subdirectories of DIR, ignoring dotfiles."
+  (unless (file-directory-p dir)
+    (user-error "Not a directory `%s'" dir))
+  (let ((dirs '())
+        (dir (directory-file-name dir))
+        (files (directory-files dir nil nil t)))
+    (dolist (file files)
+      (unless (= (aref file 0) ?.)
+        (let ((file (concat dir "/" file)))
+          (when (file-directory-p file)
+            (setq dirs (append (cons file
+                                     (directory-dirs file))
+                               dirs))))))
+    dirs))
+
+
+(defun org-agenda-files-function (get-dirs)
+  (funcall get-dirs '("~/org")))
+
+(defvar org-agenda-files-function #'org-agenda-files-function
+  "The function to determine the org agenda files.")
+
+(defun ~/org-agenda-files-update (&optional fn)
+  "Populate `org-agenda-files' with the result of calling FN, or
+`org-agenda-files-function' by default."
+  (interactive)
+  (unless fn
+    (setq fn org-agenda-files-function))
+  (setq org-agenda-files
+        (funcall fn (lambda (dirs)
+                      (append dirs (mapcan #'directory-dirs dirs))))))
+
 
 (map! :localleader
       :after org
