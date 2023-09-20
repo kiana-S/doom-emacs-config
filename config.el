@@ -211,28 +211,17 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
        (funcall type))))
   (projectile-add-known-project dir))
 
-(after! projectile
-  (defun projectile--find-file (invalidate-cache &optional ff-variant)
-    "Jump to a project's file using completion.
-With INVALIDATE-CACHE invalidates the cache first.  With FF-VARIANT set to a
-defun, use that instead of `find-file'.   A typical example of such a defun
-would be `find-file-other-window' or `find-file-other-frame'"
-    (interactive "P")
-    (projectile-maybe-invalidate-cache invalidate-cache)
-    (let* ((project-root (projectile-acquire-root))
-           (file (read-file-name "Find file: " project-root project-root
-                                 (confirm-nonexistent-file-or-buffer) nil
-                                 ))
-           (ff (or ff-variant #'find-file)))
-      (when file
-        (funcall ff (expand-file-name file project-root))
-        (run-hooks 'projectile-find-file-hook))))
-
-  (defun projectile-find-file (&optional invalidate-cache)
-    "Jump to a project's file using completion.
-With a prefix arg INVALIDATE-CACHE invalidates the cache first."
-    (interactive)
-    (projectile--find-file invalidate-cache)))
+(defadvice! ~/projectile-find-file (invalidate-cache &optional ff-variant)
+    :override #'projectile--find-file
+  (projectile-maybe-invalidate-cache invalidate-cache)
+  (let* ((project-root (projectile-acquire-root))
+         (file (read-file-name "Find file: " project-root project-root
+                               (confirm-nonexistent-file-or-buffer) nil
+                               ))
+         (ff (or ff-variant #'find-file)))
+    (when file
+      (funcall ff (expand-file-name file project-root))
+      (run-hooks 'projectile-find-file-hook))))
 
 
 (after! calc
