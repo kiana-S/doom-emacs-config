@@ -153,26 +153,26 @@ If nil, then `default-directory' for the org buffer is used."))
 
 ;;; Org roam
 
-(defun org-roam-node-file-maybe (node)
-  "Get file name from NODE, or return a default filename."
-  (or (org-roam-node-file node)
-      (concat "%<%Y%m%d%H%M%S>-" (org-roam-node-slug node) ".org")))
-
-(defun org-roam-node-file-maybe-with-dir (node)
-  "Get file name from NODE, or ask for directory and return a default filename."
+(defun org-roam-node-file-maybe (node &optional dir)
+  "Get file name from NODE, or return a default filename in directory DIR."
   (or (org-roam-node-file node)
       (expand-file-name (concat "%<%Y%m%d%H%M%S>-" (org-roam-node-slug node) ".org")
-                        (read-directory-name "Directory: " org-roam-directory))))
+                        dir)))
+
+(defun org-roam-node-file-maybe-pick-dir (node)
+  "Get file name from NODE, or ask for directory and return a default filename."
+  (org-roam-node-file-maybe
+    node (read-directory-name "Directory: " org-roam-directory)))
 
 
 (after! org-roam
   (setq org-roam-capture-templates
         '(("d" "Default" plain "%?"
-           :target (file+head "${file-maybe-with-dir}"
+           :target (file+head "${file-maybe-pick-dir}"
                               "#+title: ${title}\n\n")
            :unnarrowed t)
           ("n" "Notes" entry "* %u\n\n%?"
-           :target (file+head+olp "${file-maybe}"
+           :target (file+head+olp "${file-maybe-pick-dir}"
                                   "#+title: ${title}\n\n"
                                   ("Notes"))
            :empty-lines 1))))
