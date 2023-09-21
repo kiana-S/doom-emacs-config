@@ -12,9 +12,15 @@
         org-agenda-start-day nil
         org-agenda-start-on-weekday 1
 
+        org-stuck-projects
+          '("project/-TODO-STRT-WAIT-DONE"
+            ("PROJ" "NEXT" "FIN" "KILL")
+            nil "")
+
         org-todo-keywords
           '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "|" "DONE(d)")
-            (sequence "|" "KILL(k)"))
+            (sequence "PROJ(p)" "NEXT(n)" "WORK(o!)" "HOLD(h@/!)" "|" "FIN(f!)")
+            (sequence "|" "KILL(k@)"))
         org-todo-keyword-faces
           '(("STRT" . +org-todo-active)
             ("WAIT" . +org-todo-onhold)
@@ -38,8 +44,15 @@
            "* %?\n%^T" :empty-lines 1)
           ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
            "* %?\n$^t" :empty-lines 1)
-          ("p" "Project" entry (file "~/org/projects.org")
-           "* PROJ %?\n:LOGBOOK:\n- Created                              %U\n:END:"
+          ("p" "Project" entry (file+function "~/org/projects.org"
+                                (lambda ()
+                                  (require 'consult-org)
+                                  ;; Prevent consult from trying to recenter the window
+                                  ;; after capture has already hidden the buffer
+                                  (let (consult-after-jump-hook)
+                                    (consult-org-heading "-project"))))
+           "* PROJ %? :project:\n:PROPERTIES:\n:VISIBILITY: folded\n:END:
+:LOGBOOK:\n- Created                              %U\n:END:"
            :empty-lines 1 :prepend t)))
   ;; Customize appearance
   (setq org-hide-emphasis-markers t
