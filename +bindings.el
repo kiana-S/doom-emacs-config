@@ -4,11 +4,7 @@
 ;; General keybindings
 
 (map! :leader
-
-  :desc "Find file in project"
-    "SPC" #'projectile--find-file
-  :desc "Find file in project"
-    "p f" #'projectile--find-file
+  [remap projectile-find-file] #'projectile--find-file
 
   ;; Bind "SPC 0" to treemacs
   ;; Map window bindings to "SPC 1" through "SPC 9"
