@@ -30,21 +30,21 @@
             ("HOLD" . +org-todo-onhold))
         org-capture-templates
         '(("t" "Task")
-          ("tt" "Task" entry (file+headline "~/org/events.org" "Tasks")
+          ("tt" "Task" entry (file+headline "events.org" "Tasks")
            "* TODO %?" :empty-lines 1)
-          ("td" "Task with Deadline" entry (file+headline "~/org/events.org" "Tasks")
+          ("td" "Task with Deadline" entry (file+headline "events.org" "Tasks")
            "* TODO %?\nDEADLINE: %^{Deadline}T" :empty-lines 1)
-          ("tD" "Task with Deadline (date only)" entry (file+headline "~/org/events.org" "Tasks")
+          ("tD" "Task with Deadline (date only)" entry (file+headline "events.org" "Tasks")
            "* TODO %?\nDEADLINE: %^{Deadline}t" :empty-lines 1)
-          ("ts" "Scheduled Task" entry (file+headline "~/org/events.org" "Tasks")
+          ("ts" "Scheduled Task" entry (file+headline "events.org" "Tasks")
            "* TODO %?\nSCHEDULED: %^{Time}T" :empty-lines 1)
-          ("tS" "Scheduled Task (date only)" entry (file+headline "~/org/events.org" "Tasks")
+          ("tS" "Scheduled Task (date only)" entry (file+headline "events.org" "Tasks")
            "* TODO %?\nSCHEDULED: %^{Date}t" :empty-lines 1)
-          ("e" "Event" entry (file+headline "~/org/events.org" "Events")
+          ("e" "Event" entry (file+headline "events.org" "Events")
            "* %?\n%^T" :empty-lines 1)
-          ("E" "Event (date only)" entry (file+headline "~/org/events.org" "Events")
+          ("E" "Event (date only)" entry (file+headline "events.org" "Events")
            "* %?\n$^t" :empty-lines 1)
-          ("p" "Project" entry (file+function "~/org/projects.org"
+          ("p" "Project" entry (file+function "projects.org"
                                 (lambda ()
                                   (beginning-of-buffer)
                                   (unless (string-match-p "\\`\\s-*$" (thing-at-point 'line))
@@ -122,7 +122,7 @@
 
 
 (defun org-agenda-files-function (get-dirs)
-  (funcall get-dirs '("~/org")))
+  (funcall get-dirs org-directory))
 
 (defvar org-agenda-files-function #'org-agenda-files-function
   "The function to determine the org agenda files.")
@@ -152,7 +152,7 @@
 ;; Exporting directory
 
 (after! org
-  (defvar org-export-dir "~/org/export/"
+  (defvar org-export-dir (expand-file-name "export/" org-directory)
     "The directory to export Org mode files to.
 
 If nil, then `default-directory' for the org buffer is used."))
