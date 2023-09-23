@@ -13,7 +13,7 @@
         org-agenda-start-on-weekday 1
 
         org-stuck-projects
-          '("project/-TODO-STRT-WAIT-DONE"
+          '("project/!-TODO-STRT-WAIT-DONE"
             ("PROJ" "NEXT" "FIN" "KILL")
             nil "")
 
@@ -46,14 +46,31 @@
            "* %?\n$^t" :empty-lines 1)
           ("p" "Project" entry (file+function "~/org/projects.org"
                                 (lambda ()
-                                  (require 'consult-org)
-                                  ;; Prevent consult from trying to recenter the window
-                                  ;; after capture has already hidden the buffer
-                                  (let (consult-after-jump-hook)
-                                    (consult-org-heading "-project"))))
+                                  (beginning-of-buffer)
+                                  (unless (string-match-p "\\`\\s-*$" (thing-at-point 'line))
+                                    (insert "\n")
+                                    (beginning-of-buffer))
+                                  (when (y-or-n-p "Insert project at heading? ")
+                                    (require 'consult-org)
+                                    ;; Prevent consult from trying to recenter the window
+                                    ;; after capture has already hidden the buffer
+                                    (let (consult-after-jump-hook)
+                                      (consult--read
+                                       (consult--slow-operation "Collecting headings..."
+                                         (or (consult-org--headings nil "-project" nil)
+                                               (user-error "No headings")))
+                                       :prompt "Heading: "
+                                       :category 'consult-org-heading
+                                       :sort nil
+                                       :require-match t
+                                       :history '(:input consult-org--history)
+                                       :narrow (consult-org--narrow)
+                                       :state (consult--jump-state)
+                                       :group nil
+                                       :lookup #'consult--lookup-candidate)))))
            "* PROJ %? :project:\n:PROPERTIES:\n:VISIBILITY: folded\n:END:
 :LOGBOOK:\n- Created                              %U\n:END:"
-           :empty-lines 1 :prepend t)))
+           :empty-lines 1)))
   ;; Customize appearance
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars nil
