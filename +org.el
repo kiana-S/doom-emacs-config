@@ -71,13 +71,14 @@
            "* PROJ %? :project:\n:PROPERTIES:\n:VISIBILITY: folded\n:END:
 :LOGBOOK:\n- Created                              %U\n:END:"
            :empty-lines 1)))
+  (~/org-agenda-files-update)
+
   ;; Customize appearance
   (setq org-hide-emphasis-markers t
         org-hide-leading-stars nil
         org-superstar-item-bullet-alist '((42 . 8226)
                                           (43 . 8226)
                                           (45 . 8226)))
-  (~/org-agenda-files-update)
 
   ;; Face customization - not sure about this...
   ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
@@ -122,7 +123,7 @@
 
 
 (defun org-agenda-files-function (get-dirs)
-  (funcall get-dirs org-directory))
+  (funcall get-dirs (list org-directory)))
 
 (defvar org-agenda-files-function #'org-agenda-files-function
   "The function to determine the org agenda files.")
