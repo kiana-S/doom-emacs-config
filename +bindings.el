@@ -4,7 +4,6 @@
 ;; General keybindings
 
 (map! :leader
-  [remap projectile-find-file] #'projectile--find-file
 
   ;; Bind "SPC 0" to treemacs
   ;; Map window bindings to "SPC 1" through "SPC 9"
@@ -49,6 +48,9 @@
 
   :desc "Open URL"
     "s u" #'goto-address-at-point)
+
+;;; This remapping is a consequence of the weirdest emacs bug I've ever seen
+(map! [remap projectile-find-file] #'projectile--find-file)
 
 ;; Rebind macro key
 (map! :map evil-normal-state-map
