@@ -93,9 +93,15 @@
   (setq treemacs-read-string-input 'from-minibuffer
         treemacs-select-when-already-in-treemacs 'stay))
 
-(defun ~/treemacs-fix-project (&rest _)
+(defun ~/treemacs-restrict (&rest _)
   (unless (doom-project-p)
-    (user-error "Must be in a project to open project tree"))
+    (user-error "Must be in a project to open project tree")))
+
+(advice-add #'treemacs-select-window :before #'~/treemacs-restrict)
+(advice-add #'+treemacs/toggle :before #'~/treemacs-restrict)
+
+(defun ~/treemacs-fix-project ()
+  (interactive)
   (require 'treemacs)
   (let* ((name (concat "Perspective " (doom-project-name)))
          (project (treemacs-project->create! :name (doom-project-name) :path (directory-file-name (doom-project-root))
@@ -110,9 +116,6 @@
       (setf (treemacs-current-workspace) workspace)
       (treemacs--invalidate-buffer-project-cache)
       (treemacs--rerender-after-workspace-change))))
-
-(advice-add #'treemacs-select-window :before #'~/treemacs-fix-project)
-(advice-add #'+treemacs/toggle :before #'~/treemacs-fix-project)
 
 (after! dired-mode
   (setq dired-kill-when-opening-new-dired-buffer t))
