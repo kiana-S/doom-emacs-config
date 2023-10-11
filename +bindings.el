@@ -49,6 +49,9 @@
   :desc "Open URL"
     "s u" #'goto-address-at-point)
 
+(map! :map global-map
+      "M-u" #'universal-argument)
+
 ;;; This remapping is a consequence of the weirdest emacs bug I've ever seen
 (map! [remap projectile-find-file] #'projectile--find-file)
 
