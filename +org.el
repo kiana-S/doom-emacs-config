@@ -12,6 +12,12 @@
         org-agenda-start-day nil
         org-agenda-start-on-weekday 1
 
+        org-cite-csl-styles-dir "~/Zotero/styles"
+        org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
+        org-cite-global-bibliography (list (expand-file-name "library.json" org-directory))
+        citar-bibliography org-cite-global-bibliography
+
+
         org-stuck-projects
           '("project/!-TODO-STRT-WAIT-DONE"
             ("PROJ" "NEXT" "FIN" "KILL")
@@ -79,6 +85,8 @@
         org-superstar-item-bullet-alist '((42 . 8226)
                                           (43 . 8226)
                                           (45 . 8226)))
+  (custom-set-faces! `(org-cite :foreground ,(doom-color 'green))
+                     `(org-cite-key :slant italic :foreground ,(doom-color 'green)))
 
   ;; Face customization - not sure about this...
   ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
@@ -229,3 +237,33 @@ If nil, then `default-directory' for the org buffer is used."))
                            :complete #'org-projectile-completion)
   (org-link-set-parameters "roam"
                            :complete #'org-roam-completion))
+
+;; Citar
+
+(after! citar
+  (setq citar-indicators (list
+        (citar-indicator-create
+         :symbol (nerd-icons-mdicon "nf-md-link"
+                                    :face 'nerd-icons-lblue)
+         :padding "  "
+         :function #'citar-has-links
+         :tag "has:links")
+        (citar-indicator-create
+         :symbol (nerd-icons-mdicon "nf-md-file"
+                                    :face 'nerd-icons-lred)
+         :padding "  "
+         :function #'citar-has-files
+         :tag "has:files")
+        (citar-indicator-create
+         :symbol (nerd-icons-mdicon "nf-md-note_text"
+                                    :face 'nerd-icons-blue)
+         :padding "  "
+         :function #'citar-has-notes
+         :tag "has:notes")
+        (citar-indicator-create
+         :symbol (nerd-icons-mdicon "nf-md-check"
+                                    :face 'nerd-icons-lgreen)
+         :padding "  "
+         :function #'citar-is-cited
+         :tag "is:cited"))))
+
