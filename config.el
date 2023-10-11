@@ -163,8 +163,8 @@
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-character 9615
         highlight-indent-guides-responsive 'top
-        highlight-indent-guides-auto-character-face-perc 50
-        highlight-indent-guides-auto-top-character-face-perc 90))
+        highlight-indent-guides-auto-character-face-perc 90
+        highlight-indent-guides-auto-top-character-face-perc 200))
 
 ;; Flymake
 (add-hook! prog-mode #'flymake-mode)
@@ -214,8 +214,8 @@
   "Create a new directory DIR and add it to the list of known projects.
 
 TYPE specifies the type of project to create. It can take the following values:
-- git creates a new Git repository.
-- projectile creates a .projectile file in the project root.
+- `git', which creates a new Git repository.
+- `projectile', which creates a .projectile file in the project root.
 - A string, which is used as a filename to create in the project root.
 - A function, which is called with no arguments inside the root of the project.
 If nil, then a Git repository is created by default.
