@@ -200,8 +200,7 @@ If nil, then `default-directory' for the org buffer is used."))
 
 (defun org-roam-node-file-maybe-pick-dir (node)
   "Get file name from NODE, or ask for directory and return a default filename."
-  (org-roam-node-file-maybe
-    node (read-directory-name "Directory: " org-roam-directory)))
+  (or (org-roam-node-file-maybe node) (read-directory-name "Directory: " org-roam-directory)))
 
 
 (after! org-roam
