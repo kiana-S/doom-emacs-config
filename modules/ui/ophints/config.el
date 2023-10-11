@@ -22,12 +22,12 @@
               :switch evil-goggles-enable-yank
               :advice evil-goggles--generic-async-advice)
             '(evil-fill
-              :face evil-goggles-change-face
-              :switch evil-goggles-enable-change
+              :face evil-goggles-fill-and-move-face
+              :switch evil-goggles-enable-fill-and-move
               :advice evil-goggles--generic-async-advice)
             '(evil-fill-and-move
-              :face evil-goggles-change-face
-              :switch evil-goggles-enable-change
+              :face evil-goggles-fill-and-move-face
+              :switch evil-goggles-enable-fill-and-move
               :advice evil-goggles--generic-async-advice))
   (custom-set-faces! '(evil-goggles-default-face :background "#2b3a7f")
                      '(evil-goggles-delete-face :inherit magit-diff-removed-highlight)
