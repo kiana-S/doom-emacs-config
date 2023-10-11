@@ -25,7 +25,7 @@
 
         org-todo-keywords
           '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "|" "DONE(d)")
-            (sequence "PROJ(p)" "NEXT(n)" "WORK(o!)" "HOLD(h@/!)" "|" "FIN(f!)")
+            (sequence "PROJ(p)" "NEXT(n)" "WORK(o!)" "HOLD(h@/!)" "|" "FIN(f!/@)")
             (sequence "|" "KILL(k@)"))
         org-todo-keyword-faces
           '(("STRT" . +org-todo-active)
