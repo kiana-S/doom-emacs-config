@@ -1,5 +1,31 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
+(defun ~/org-project-find-heading ()
+  "Find heading in org project file."
+  (beginning-of-buffer)
+  (unless (string-match-p "\\`\\s-*$" (thing-at-point 'line))
+    (insert "\n")
+    (beginning-of-buffer))
+  (when (y-or-n-p "Insert project at heading? ")
+    (require 'consult-org)
+    ;; Prevent consult from trying to recenter the window
+    ;; after capture has already hidden the buffer
+    (let (consult-after-jump-hook)
+      (consult--read
+       (consult--slow-operation "Collecting headings..."
+         (or (consult-org--headings nil "-project" nil)
+             (user-error "No headings")))
+       :prompt "Heading: "
+       :category 'consult-org-heading
+       :sort nil
+       :require-match t
+       :history '(:input consult-org--history)
+       :narrow (consult-org--narrow)
+       :state (consult--jump-state)
+       :group nil
+       :lookup #'consult--lookup-candidate)))
+  )
+
 
 ;;; Org config
 
@@ -15,7 +41,7 @@
         org-startup-with-latex-preview t
         +org-startup-with-animated-gifs t
         org-format-latex-options
-          (plist-put org-format-latex-options :scale 0.55)
+        (plist-put org-format-latex-options :scale 0.55)
 
         org-cite-csl-styles-dir "~/Zotero/styles"
         org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
@@ -24,21 +50,21 @@
 
 
         org-stuck-projects
-          '("project/!-TODO-STRT-WAIT-DONE"
-            ("PROJ" "NEXT" "FIN" "KILL")
-            nil "")
+        '("project/!-TODO-STRT-WAIT-DONE"
+          ("PROJ" "NEXT" "FIN" "KILL")
+          nil "")
 
         org-todo-keywords
-          '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "|" "DONE(d)")
-            (sequence "PROJ(p)" "NEXT(n)" "WORK(o!)" "HOLD(h@/!)" "|" "FIN(f!/@)")
-            (sequence "|" "KILL(k@)"))
+        '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "|" "DONE(d)")
+          (sequence "PROJ(p)" "NEXT(n)" "WORK(o!)" "HOLD(h@/!)" "|" "FIN(f!/@)")
+          (sequence "|" "KILL(k@)"))
         org-todo-keyword-faces
-          '(("STRT" . +org-todo-active)
-            ("WAIT" . +org-todo-onhold)
-            ("KILL" . +org-todo-cancel)
-            ("PROJ" . +org-todo-project)
-            ("WORK" . +org-todo-active)
-            ("HOLD" . +org-todo-onhold))
+        '(("STRT" . +org-todo-active)
+          ("WAIT" . +org-todo-onhold)
+          ("KILL" . +org-todo-cancel)
+          ("PROJ" . +org-todo-project)
+          ("WORK" . +org-todo-active)
+          ("HOLD" . +org-todo-onhold))
         org-capture-templates
         '(("t" "Task")
           ("tt" "Task" entry (file+headline "events.org" "Tasks")
@@ -55,30 +81,7 @@
            "* %?\n%^T" :empty-lines 1)
           ("E" "Event (date only)" entry (file+headline "events.org" "Events")
            "* %?\n$^t" :empty-lines 1)
-          ("p" "Project" entry (file+function "projects.org"
-                                (lambda ()
-                                  (beginning-of-buffer)
-                                  (unless (string-match-p "\\`\\s-*$" (thing-at-point 'line))
-                                    (insert "\n")
-                                    (beginning-of-buffer))
-                                  (when (y-or-n-p "Insert project at heading? ")
-                                    (require 'consult-org)
-                                    ;; Prevent consult from trying to recenter the window
-                                    ;; after capture has already hidden the buffer
-                                    (let (consult-after-jump-hook)
-                                      (consult--read
-                                       (consult--slow-operation "Collecting headings..."
-                                         (or (consult-org--headings nil "-project" nil)
-                                               (user-error "No headings")))
-                                       :prompt "Heading: "
-                                       :category 'consult-org-heading
-                                       :sort nil
-                                       :require-match t
-                                       :history '(:input consult-org--history)
-                                       :narrow (consult-org--narrow)
-                                       :state (consult--jump-state)
-                                       :group nil
-                                       :lookup #'consult--lookup-candidate)))))
+          ("p" "Project" entry (file+function "projects.org" ~/org-project-find-heading)
            "* PROJ %? :project:\n:PROPERTIES:\n:VISIBILITY: folded\n:END:
 :LOGBOOK:\n- Created                              %U\n:END:"
            :empty-lines 1)))
@@ -91,7 +94,7 @@
                                           (43 . 8226)
                                           (45 . 8226)))
   (custom-set-faces! `(org-cite :foreground ,(doom-color 'green))
-                     `(org-cite-key :slant italic :foreground ,(doom-color 'green)))
+    `(org-cite-key :slant italic :foreground ,(doom-color 'green)))
 
   ;; Face customization - not sure about this...
   ;; (custom-set-faces! '(org-level-4 :height 1.1 :inherit outline-4)
@@ -112,7 +115,7 @@
   ;;                    '(org-tag :inherit fixed-pitch :weight bold :size 12)
   ;;                    '(org-verbatim :inherit fixed-pitch)
   ;;                    '(org-date :inherit fixed-pitch))
-)
+  )
 ;; (add-hook! org-mode #'variable-pitch-mode
 ;;                     (lambda () (setq-local display-line-numbers nil)))
 
@@ -173,7 +176,7 @@
 If nil, then `default-directory' for the org buffer is used."))
 
 (defadvice! ~/modify-org-export-dir (orig-fn extension &optional subtreep pub-dir)
-    :around #'org-export-output-file-name
+  :around #'org-export-output-file-name
   (unless pub-dir
     (setq pub-dir org-export-dir))
   (unless (file-directory-p pub-dir)
@@ -193,7 +196,7 @@ If nil, then `default-directory' for the org buffer is used."))
   (require 'org-journal)
   (funcall org-journal-find-file
            (car (last (seq-filter #'file-regular-p
-             (directory-files org-journal-dir 'full))))))
+                                  (directory-files org-journal-dir 'full))))))
 
 
 ;;; Org roam
@@ -247,28 +250,28 @@ If nil, then `default-directory' for the org buffer is used."))
 
 (after! citar
   (setq citar-indicators (list
-        (citar-indicator-create
-         :symbol (nerd-icons-mdicon "nf-md-link"
-                                    :face 'nerd-icons-lblue)
-         :padding "  "
-         :function #'citar-has-links
-         :tag "has:links")
-        (citar-indicator-create
-         :symbol (nerd-icons-mdicon "nf-md-file"
-                                    :face 'nerd-icons-lred)
-         :padding "  "
-         :function #'citar-has-files
-         :tag "has:files")
-        (citar-indicator-create
-         :symbol (nerd-icons-mdicon "nf-md-note_text"
-                                    :face 'nerd-icons-blue)
-         :padding "  "
-         :function #'citar-has-notes
-         :tag "has:notes")
-        (citar-indicator-create
-         :symbol (nerd-icons-mdicon "nf-md-check"
-                                    :face 'nerd-icons-lgreen)
-         :padding "  "
-         :function #'citar-is-cited
-         :tag "is:cited"))))
+                          (citar-indicator-create
+                           :symbol (nerd-icons-mdicon "nf-md-link"
+                                                      :face 'nerd-icons-lblue)
+                           :padding "  "
+                           :function #'citar-has-links
+                           :tag "has:links")
+                          (citar-indicator-create
+                           :symbol (nerd-icons-mdicon "nf-md-file"
+                                                      :face 'nerd-icons-lred)
+                           :padding "  "
+                           :function #'citar-has-files
+                           :tag "has:files")
+                          (citar-indicator-create
+                           :symbol (nerd-icons-mdicon "nf-md-note_text"
+                                                      :face 'nerd-icons-blue)
+                           :padding "  "
+                           :function #'citar-has-notes
+                           :tag "has:notes")
+                          (citar-indicator-create
+                           :symbol (nerd-icons-mdicon "nf-md-check"
+                                                      :face 'nerd-icons-lgreen)
+                           :padding "  "
+                           :function #'citar-is-cited
+                           :tag "is:cited"))))
 
