@@ -12,6 +12,11 @@
         org-agenda-start-day nil
         org-agenda-start-on-weekday 1
 
+        org-startup-with-latex-preview t
+        +org-startup-with-animated-gifs t
+        org-format-latex-options
+          (plist-put org-format-latex-options :scale 0.55)
+
         org-cite-csl-styles-dir "~/Zotero/styles"
         org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
         org-cite-global-bibliography (list (expand-file-name "library.json" org-directory))
@@ -150,6 +155,7 @@
 (map! :localleader
       :after org
       :map org-mode-map
+      "N" #'org-num-mode
       "C" #'org-columns
       "c D" #'org-clock-display
       "m b f" #'org-table-eval-formula
