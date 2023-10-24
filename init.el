@@ -49,7 +49,7 @@
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        (window-select +numbers)
-                         ; visually switch windows
+                                        ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
@@ -78,7 +78,7 @@
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       ;;vterm             ; the best terminal emulation in Emacs
+       vterm             ; the best terminal emulation in Emacs
 
        :checkers
        ;;syntax            ; tasing you for every semicolon you forget
@@ -115,7 +115,7 @@
 
        :lang
        (agda +tree-sitter +local)
-                         ; types of types of types of types...
+                                        ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        ;;(cc +lsp)         ; C > C++ == 1
        ;;clojure           ; java with a lisp
@@ -160,12 +160,12 @@
             +gnuplot +jupyter
             +pandoc +journal
             +present)
-                         ; organize your plain life in plain text
+                                        ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python +lsp +tree-sitter)
-                         ; beautiful is better than ugly
+                                        ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -173,18 +173,18 @@
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp +tree-sitter)
-                         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+                                        ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        (scala +lsp +tree-sitter)
-                         ; java, but good
+                                        ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        (sh +fish +lsp +tree-sitter)
-                         ; she sells {ba,z,fi}sh shells on the C xor
+                                        ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        (web +lsp +tree-sitter)
-                         ; the tubes
+                                        ; the tubes
        yaml              ; JSON, but readable
        ;;zig               ; C, but simpler
 
@@ -207,23 +207,23 @@
 
 ;; Enable evil-collection-calc
 (setq +evil-collection-disabled-list
-    '(anaconda-mode
-      buff-menu
-      comint
-      company
-      custom
-      eldoc
-      elisp-mode
-      ert
-      free-keys
-      helm
-      help
-      indent
-      image
-      kotlin-mode
-      outline
-      replace
-      shortdoc
-      simple
-      slime
-      lispy))
+      '(anaconda-mode
+        buff-menu
+        comint
+        company
+        custom
+        eldoc
+        elisp-mode
+        ert
+        free-keys
+        helm
+        help
+        indent
+        image
+        kotlin-mode
+        outline
+        replace
+        shortdoc
+        simple
+        slime
+        lispy))

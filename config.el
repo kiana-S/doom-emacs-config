@@ -150,8 +150,9 @@
 
 
 (use-package! pinentry
-  :init (setq epg-pinentry-mode 'loopback)
-        (pinentry-start))
+  :init
+  (setq epg-pinentry-mode 'loopback)
+  (pinentry-start))
 
 
 ;; Restart pinentry due to inactivity
@@ -198,8 +199,9 @@
 (after! flymake-popon
   (setq flymake-popon-width 120)
   (set-face-foreground 'flymake-popon-posframe-border (doom-color 'selection)))
-(custom-set-faces! '(compilation-warning :slant normal :weight bold)
-                   '(flymake-note-echo :underline nil :inherit compilation-info))
+(custom-set-faces!
+  '(compilation-warning :slant normal :weight bold)
+  '(flymake-note-echo :underline nil :inherit compilation-info))
 
 ;; Dired
 (defun +dired/up-directory-alternative ()
@@ -249,7 +251,7 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
   (projectile-add-known-project dir))
 
 (defadvice! ~/projectile-find-file (invalidate-cache &optional ff-variant)
-    :override #'projectile--find-file
+  :override #'projectile--find-file
   (projectile-maybe-invalidate-cache invalidate-cache)
   (let* ((project-root (projectile-acquire-root))
          (file (read-file-name "Find file: " project-root project-root

@@ -39,7 +39,6 @@
   (kill-region beg end)
   (evil-insert-state))
 
-
 (after! embark
   ;; Invert mark hook to set the mark to the beginning instead of the end
   (cl-defun embark--mark-target (&rest rest &key run bounds &allow-other-keys)
@@ -47,29 +46,28 @@
 After marking the target, call RUN with the REST of its arguments."
     (cond
      ((and bounds run)
-       (save-mark-and-excursion
-         (set-mark (car bounds))
-         (goto-char (cdr bounds))
-         (apply run :bounds bounds rest)))
+      (save-mark-and-excursion
+        (set-mark (car bounds))
+        (goto-char (cdr bounds))
+        (apply run :bounds bounds rest)))
      (bounds ;; used as pre- or post-action hook
-       (set-mark (car bounds))
-       (goto-char (cdr bounds)))
+      (set-mark (car bounds))
+      (goto-char (cdr bounds)))
      (run (apply run rest))))
 
   (cl-pushnew #'embark--mark-target
-        (alist-get #'~/embark-change embark-around-action-hooks))
+              (alist-get #'~/embark-change embark-around-action-hooks))
   (cl-pushnew #'embark--mark-target
-        (alist-get #'+eval:region embark-around-action-hooks))
+              (alist-get #'+eval:region embark-around-action-hooks))
   (cl-pushnew #'embark--mark-target
-        (alist-get #'+eval:replace-region embark-around-action-hooks))
-  (cl-pushnew #'embark--ignore-target
-        (alist-get #'lsp-rename embark-target-injection-hooks))
+              (alist-get #'+eval:replace-region embark-around-action-hooks))
+
   (cl-pushnew #'embark--beginning-of-target
-        (alist-get #'backward-word embark-pre-action-hooks))
+              (alist-get #'backward-word embark-pre-action-hooks))
   (cl-pushnew #'embark--end-of-target
-        (alist-get #'forward-word embark-pre-action-hooks))
+              (alist-get #'forward-word embark-pre-action-hooks))
   (cl-pushnew #'embark--ignore-target
-        (alist-get #'+spell/correct embark-target-injection-hooks))
+              (alist-get #'+spell/correct embark-target-injection-hooks))
 
   (pushnew! embark-repeat-actions
             #'lsp-ui-find-next-reference
@@ -88,11 +86,11 @@ After marking the target, call RUN with the REST of its arguments."
   (let ((fsym (make-symbol (symbol-name fn))))
   ;;; Love me some uninterned symbols
     `(progn
-      (defun ,fsym (ident &optional arg)
-        ,(documentation fn)
-        (interactive (list (read-from-minibuffer ,prompt) current-prefix-arg))
-        (,fn ident arg))
-      #',fsym)))
+       (defun ,fsym (ident &optional arg)
+         ,(documentation fn)
+         (interactive (list (read-from-minibuffer ,prompt) current-prefix-arg))
+         (,fn ident arg))
+       #',fsym)))
 
 
 (after! embark
