@@ -7,6 +7,7 @@
 
 
 (package! pinentry)
+(package! magit-delta)
 
 (package! flycheck :disable t)
 (package! flyspell :disable t)

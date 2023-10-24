@@ -82,6 +82,8 @@
 
 (setq disabled-command-function nil
       compile-command "nix build")
+(use-package! magit-delta
+  :hook (magit-mode . magit-delta-mode))
 
 (use-package! treemacs
   :init
