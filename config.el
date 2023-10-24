@@ -76,12 +76,18 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+
 (setq-default tab-width 2
               evil-shift-width 2
               evil-auto-indent nil)
 
 (setq disabled-command-function nil
-      compile-command "nix build")
+      compile-command "nix build"
+      shell-file-name (executable-find "bash"))
+
+(after! vterm
+  (setq-default vterm-shell (executable-find "fish")))
+
 (use-package! magit-delta
   :hook (magit-mode . magit-delta-mode))
 
