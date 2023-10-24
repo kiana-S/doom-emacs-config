@@ -188,6 +188,8 @@
 (after! lsp-mode
   (require 'avy) ; Needed for code lens selection
   (setq lsp-diagnostics-provider :flymake))
+(setq flymake-allowed-file-name-masks nil) ;; HACK
+
 
 ;; Use Flycheck's double arrow fringe indicator
 (after! flymake
