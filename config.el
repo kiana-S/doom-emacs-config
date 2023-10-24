@@ -34,8 +34,6 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-tokyo-night)
-(after! doom-themes
-  (setq doom-themes-treemacs-theme "doom-colors"))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,7 +89,22 @@
         treemacs-python-executable "/home/kiana/.emacs.d/python3-bin/bin/python")
   :config
   (setq treemacs-read-string-input 'from-minibuffer
-        treemacs-select-when-already-in-treemacs 'stay))
+        treemacs-select-when-already-in-treemacs 'stay)
+  (custom-set-faces!
+    '((treemacs-root-face
+       treemacs-file-face) :inherit variable-pitch)
+    '(treemacs-tags-face :height 0.95 :inherit variable-pitch)
+    '(treemacs-directory-face :inherit treemacs-file-face)
+    '((treemacs-git-added-face
+       treemacs-git-modified-face
+       treemacs-git-renamed-face
+       treemacs-git-conflict-face) :inherit treemacs-file-face)
+    `(treemacs-git-ignored-face :foreground ,(doom-color 'base1) :slant italic :inherit treemacs-file-face)
+    `(treemacs-git-untracked-face :foreground ,(doom-color 'base1) :inherit treemacs-file-face)
+    '(treemacs-async-loading-face :height 0.8 :inherit (font-lock-comment-face treemacs-file-face)))
+  (treemacs-hide-gitignored-files-mode)
+  (treemacs-fringe-indicator-mode -1)
+  (treemacs-resize-icons 16))
 
 (defun ~/treemacs-restrict (&rest _)
   (unless (doom-project-p)
