@@ -1,5 +1,6 @@
 ;;; $DOOMDIR/+org.el -*- lexical-binding: t; -*-
 
+
 (defun ~/org-project-find-heading ()
   "Find heading in org project file."
   (beginning-of-buffer)
@@ -13,8 +14,8 @@
     (let (consult-after-jump-hook)
       (consult--read
        (consult--slow-operation "Collecting headings..."
-         (or (consult-org--headings nil "-project" nil)
-             (user-error "No headings")))
+                                (or (consult-org--headings nil "-project" nil)
+                                    (user-error "No headings")))
        :prompt "Heading: "
        :category 'consult-org-heading
        :sort nil
@@ -25,7 +26,6 @@
        :group nil
        :lookup #'consult--lookup-candidate)))
   )
-
 
 ;;; Org config
 
@@ -40,14 +40,14 @@
 
         org-startup-with-latex-preview t
         +org-startup-with-animated-gifs t
-        org-format-latex-options
-        (plist-put org-format-latex-options :scale 0.55)
+        org-format-latex-options (plist-put org-format-latex-options :scale 0.55)
 
         org-cite-csl-styles-dir "~/Zotero/styles"
         org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
         org-cite-global-bibliography (list (expand-file-name "library.json" org-directory))
         citar-bibliography org-cite-global-bibliography
 
+        org-fancy-priorities-list '("❗" "⬆" "⬇" "■")
 
         org-stuck-projects
         '("project/!-TODO-STRT-WAIT-DONE"
@@ -160,6 +160,7 @@
       :map org-mode-map
       "N" #'org-num-mode
       "C" #'org-columns
+      "p" #'org-priority ;; Remove extraneous commands
       "c D" #'org-clock-display
       "m b f" #'org-table-eval-formula
       "m b F" #'org-table-edit-formulas
@@ -274,4 +275,3 @@ If nil, then `default-directory' for the org buffer is used."))
                            :padding "  "
                            :function #'citar-is-cited
                            :tag "is:cited"))))
-
