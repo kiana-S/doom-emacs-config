@@ -48,6 +48,9 @@
         citar-bibliography org-cite-global-bibliography
 
         org-fancy-priorities-list '("❗" "⬆" "⬇" "■")
+        org-agenda-custom-commands
+        '(("n" "Agenda and all tasks"
+           ((agenda "") (tags-todo "+CATEGORY=\"Task\""))))
 
         org-stuck-projects
         '("project/!-TODO-STRT-WAIT-DONE"
