@@ -14,8 +14,8 @@
     (let (consult-after-jump-hook)
       (consult--read
        (consult--slow-operation "Collecting headings..."
-                                (or (consult-org--headings nil "-project" nil)
-                                    (user-error "No headings")))
+         (or (consult-org--headings nil "-project" nil)
+             (user-error "No headings")))
        :prompt "Heading: "
        :category 'consult-org-heading
        :sort nil
@@ -27,6 +27,33 @@
        :lookup #'consult--lookup-candidate)))
   )
 
+;;; Classes and Tags
+
+
+(defvar classes-mwf '("ECON1000")
+  "Tags that belong under the :MWF: tag.")
+(defvar classes-tr '("ENGL1101" "POLS1101")
+  "Tags that belong under the :TR: tag.")
+(defvar classes-online '("MUSI1107" "POLS2401")
+  "Tags that belong under the :Online: tag.")
+
+(after! org
+  (setq org-tag-persistent-alist
+        `(("project")
+          (:newline)
+          (:startgroup) ("College")
+          (:grouptags) ("TR") ("MWF") ("Online") (:endgroup)
+
+          (:startgroup) ("MWF")
+          (:grouptags) ,@(mapcar #'list classes-mwf) (:endgroup)
+
+          (:startgroup) ("TR")
+          (:grouptags) ,@(mapcar #'list classes-tr) (:endgroup)
+
+          (:startgroup) ("Online")
+          (:grouptags) ,@(mapcar #'list classes-online) (:endgroup))))
+
+
 ;;; Org config
 
 (after! org
@@ -37,17 +64,16 @@
         org-agenda-span 'day
         org-agenda-start-day nil
         org-agenda-start-on-weekday 1
-
         org-startup-with-latex-preview t
         +org-startup-with-animated-gifs t
         org-format-latex-options (plist-put org-format-latex-options :scale 0.55)
+        org-fancy-priorities-list '("❗" "⬆" "⬇" "■")
 
         org-cite-csl-styles-dir "~/Zotero/styles"
         org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
         org-cite-global-bibliography (list (expand-file-name "library.json" org-directory))
         citar-bibliography org-cite-global-bibliography
 
-        org-fancy-priorities-list '("❗" "⬆" "⬇" "■")
         org-agenda-custom-commands
         '(("n" "Agenda and all tasks"
            ((agenda "") (tags-todo "+CATEGORY=\"Task\""))))
