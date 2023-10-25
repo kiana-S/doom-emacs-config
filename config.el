@@ -291,3 +291,6 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
 (load! "+bindings")
 (load! "+org")
 (load! "+embark")
+
+;; Secret files
+(load! "secret/+gcal")
