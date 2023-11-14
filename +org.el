@@ -68,7 +68,6 @@
         org-startup-with-latex-preview t
         +org-startup-with-animated-gifs t
         org-format-latex-options (plist-put org-format-latex-options :scale 0.55)
-        org-fancy-priorities-list '("❗" "⬆" "⬇" "■")
 
         org-cite-csl-styles-dir "~/Zotero/styles"
         org-cite-csl--fallback-style-file "/home/kiana/Zotero/styles/modern-language-styles.csl"
@@ -149,6 +148,10 @@
   )
 ;; (add-hook! org-mode #'variable-pitch-mode
 ;;                     (lambda () (setq-local display-line-numbers nil)))
+
+(after! org-fancy-priorities
+  (setq org-fancy-priorities-list '("❗" "⬆" "⬇")))
+
 
 ;; Org agenda
 
