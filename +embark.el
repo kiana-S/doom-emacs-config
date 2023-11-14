@@ -146,6 +146,7 @@ After marking the target, call RUN with the REST of its arguments."
 
   (map! (:map embark-general-map
               "SPC" nil
+              "C-SPC" #'embark-select
               "X" #'embark-export
               "y" #'embark-copy-as-kill
               "v" #'mark
@@ -154,7 +155,7 @@ After marking the target, call RUN with the REST of its arguments."
               "c" #'~/embark-change
               "/" #'evil-ex-search-forward
               "?" #'evil-ex-search-backward
-              "E" nil "w" nil "C-SPC" nil "q" nil "C-s" nil "C-r" nil)
+              "E" nil "w" nil "q" nil "C-s" nil "C-r" nil)
         (:map embark-heading-map
               "v" #'mark
               "V" #'outline-mark-subtree
@@ -203,8 +204,9 @@ After marking the target, call RUN with the REST of its arguments."
               "E" #'+eval:replace-region
               "TAB" nil "<" nil "u" nil "n" nil "p" nil)
         (:map embark-defun-map
+              "c" #'~/embark-change
               "C" #'compile-defun
-              "RET" nil "e" nil "c" nil)
+              "RET" nil "e" nil)
         (:map embark-symbol-map
               "s" nil "h" nil "d" nil "e" nil)
         (:map embark-variable-map
@@ -259,7 +261,8 @@ After marking the target, call RUN with the REST of its arguments."
               "g" 'embark-vc-file-map
               "Y" #'copy-file
               "v" #'mark
-              "c" #'~/embark-change)))
+              "c" #'~/embark-change)
+
 
 (after! embark-org
   (map! (:map embark-org-table-cell-map
@@ -275,7 +278,7 @@ After marking the target, call RUN with the REST of its arguments."
                        "j" #'+org/table-insert-row-below
                        "k" #'org-table-insert-row
                        "-" #'org-table-insert-hline)
-              "^" nil "<" nil ">" nil "h" nil)
+              "^" nil "<" nil ">" nil "o" nil "O" nil)
         (:map embark-org-table-map
               "p" #'org-table-paste-rectangle
               "C" #'org-table-convert
