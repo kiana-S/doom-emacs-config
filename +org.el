@@ -14,8 +14,8 @@
     (let (consult-after-jump-hook)
       (consult--read
        (consult--slow-operation "Collecting headings..."
-         (or (consult-org--headings nil "-project" nil)
-             (user-error "No headings")))
+                                (or (consult-org--headings nil "-project" nil)
+                                    (user-error "No headings")))
        :prompt "Heading: "
        :category 'consult-org-heading
        :sort nil
@@ -41,6 +41,7 @@
   (setq org-tag-persistent-alist
         `(("project")
           (:newline)
+          ;; Classes
           (:startgroup) ("College")
           (:grouptags) ("TR") ("MWF") ("Online") (:endgroup)
 
@@ -122,7 +123,8 @@
         org-superstar-item-bullet-alist '((42 . 8226)
                                           (43 . 8226)
                                           (45 . 8226)))
-  (custom-set-faces! `(org-cite :foreground ,(doom-color 'green))
+  (custom-set-faces!
+    `(org-cite :foreground ,(doom-color 'green))
     `(org-cite-key :slant italic :foreground ,(doom-color 'green)))
 
   ;; Face customization - not sure about this...
@@ -279,28 +281,29 @@ If nil, then `default-directory' for the org buffer is used."))
 ;; Citar
 
 (after! citar
-  (setq citar-indicators (list
-                          (citar-indicator-create
-                           :symbol (nerd-icons-mdicon "nf-md-link"
-                                                      :face 'nerd-icons-lblue)
-                           :padding "  "
-                           :function #'citar-has-links
-                           :tag "has:links")
-                          (citar-indicator-create
-                           :symbol (nerd-icons-mdicon "nf-md-file"
-                                                      :face 'nerd-icons-lred)
-                           :padding "  "
-                           :function #'citar-has-files
-                           :tag "has:files")
-                          (citar-indicator-create
-                           :symbol (nerd-icons-mdicon "nf-md-note_text"
-                                                      :face 'nerd-icons-blue)
-                           :padding "  "
-                           :function #'citar-has-notes
-                           :tag "has:notes")
-                          (citar-indicator-create
-                           :symbol (nerd-icons-mdicon "nf-md-check"
-                                                      :face 'nerd-icons-lgreen)
-                           :padding "  "
-                           :function #'citar-is-cited
-                           :tag "is:cited"))))
+  (setq citar-indicators
+        (list
+         (citar-indicator-create
+          :symbol (nerd-icons-mdicon "nf-md-link"
+                                     :face 'nerd-icons-lblue)
+          :padding "  "
+          :function #'citar-has-links
+          :tag "has:links")
+         (citar-indicator-create
+          :symbol (nerd-icons-mdicon "nf-md-file"
+                                     :face 'nerd-icons-lred)
+          :padding "  "
+          :function #'citar-has-files
+          :tag "has:files")
+         (citar-indicator-create
+          :symbol (nerd-icons-mdicon "nf-md-note_text"
+                                     :face 'nerd-icons-blue)
+          :padding "  "
+          :function #'citar-has-notes
+          :tag "has:notes")
+         (citar-indicator-create
+          :symbol (nerd-icons-mdicon "nf-md-check"
+                                     :face 'nerd-icons-lgreen)
+          :padding "  "
+          :function #'citar-is-cited
+          :tag "is:cited"))))
