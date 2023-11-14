@@ -239,26 +239,36 @@ If nil, then `default-directory' for the org buffer is used."))
 
 (defun org-roam-node-file-maybe (node &optional dir)
   "Get file name from NODE, or return a default filename in directory DIR."
+  (unless dir (setq dir org-roam-directory))
   (or (org-roam-node-file node)
       (expand-file-name (concat "%<%Y%m%d%H%M%S>-" (org-roam-node-slug node) ".org")
                         dir)))
 
 (defun org-roam-node-file-maybe-pick-dir (node)
   "Get file name from NODE, or ask for directory and return a default filename."
-  (or (org-roam-node-file-maybe node) (read-directory-name "Directory: " org-roam-directory)))
+  (or (org-roam-node-file node)
+      (expand-file-name (concat "%<%Y%m%d%H%M%S>-" (org-roam-node-slug node) ".org")
+                        (read-directory-name "Directory: " org-roam-directory))))
 
 
 (after! org-roam
   (setq org-roam-capture-templates
         '(("d" "Default" plain "%?"
-           :target (file+head "${file-maybe-pick-dir}"
-                              "#+title: ${title}\n\n")
+           :target (file+head "${file-maybe}"
+                              "#+title: ${title}\n#+filetags:\n/Related:/")
            :unnarrowed t)
-          ("n" "Notes" entry "* %u\n\n%?"
-           :target (file+head+olp "${file-maybe-pick-dir}"
-                                  "#+title: ${title}\n\n"
-                                  ("Notes"))
-           :empty-lines 1))))
+          ("D" "Default (in directory)" plain "/Related:/\n\n%?"
+           :target (file+head "${file-maybe-pick-dir}"
+                              "#+title: ${title}\n#+filetags:\n/Related:/")
+           :unnarrowed t))
+        org-roam-dailies-capture-templates
+        '(("d" "Default" entry "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>"))
+          ("n" "Notes" entry "* %?"
+           :target (file+head+olp "%<%Y-%m-%d>.org"
+                                  "#+title: %<%Y-%m-%d>"
+                                  ("Course Notes"))))))
 
 ;; Projectile link type
 
