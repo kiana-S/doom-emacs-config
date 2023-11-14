@@ -148,6 +148,7 @@
   )
 ;; (add-hook! org-mode #'variable-pitch-mode
 ;;                     (lambda () (setq-local display-line-numbers nil)))
+(add-hook! text-mode #'auto-fill-mode)
 
 (after! org-fancy-priorities
   (setq org-fancy-priorities-list '("❗" "⬆" "⬇")))
