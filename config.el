@@ -28,7 +28,8 @@
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
-  '(font-lock-variable-name-face :slant italic))
+  '(font-lock-variable-name-face :slant italic)
+  '(doom-modeline-buffer-modified :weight bold :inherit (doom-modeline error)))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
