@@ -76,7 +76,7 @@
 
         org-agenda-custom-commands
         '(("n" "Agenda and all tasks"
-           ((agenda "") (tags-todo "+CATEGORY=\"Task\""))))
+           ((agenda "") (tags-todo "+CATEGORY=\"Task\"+DEADLINE=\"\"+SCHEDULED=\"\""))))
 
         org-stuck-projects
         '("project/!-TODO-STRT-WAIT-DONE"
@@ -286,12 +286,16 @@ If nil, then `default-directory' for the org buffer is used."))
   (let ((node (org-roam-node-read nil nil nil t)))
     (concat "id:" (org-roam-node-id node))))
 
+(defun org-roam-insert-description (idstr)
+  (org-roam-node-title (org-roam-node-from-id (substring idstr 3))))
+
 (after! org
   (org-link-set-parameters "projectile"
                            :follow #'org-projectile-follow
                            :complete #'org-projectile-completion)
   (org-link-set-parameters "roam"
-                           :complete #'org-roam-completion))
+                           :complete #'org-roam-completion
+                           :insert-description #'org-roam-insert-description))
 
 ;; Citar
 
