@@ -200,6 +200,7 @@
       "m b f" #'org-table-eval-formula
       "m b F" #'org-table-edit-formulas
 
+      :desc "babel"
       "v" (lookup-key org-mode-map (kbd "C-c C-v")))
 
 
