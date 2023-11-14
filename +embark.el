@@ -8,15 +8,15 @@
   (when (derived-mode-p 'prog-mode) (funcall old-fn)))
 
 (defun ~/embark-target-identifier (old-fn)
-  (require 'lsp-mode)
   "Advise an embark target to only activate in `prog-mode' and not in `lsp-mode'."
-  (when (and (derived-mode-p 'prog-mode) (not lsp-mode)) (funcall old-fn)))
+  (when (and (derived-mode-p 'prog-mode) (not (bound-and-true-p lsp-mode))) (funcall old-fn)))
 
 (advice-add #'embark-target-expression-at-point :around #'~/embark-target-prog-mode)
 (advice-add #'embark-target-identifier-at-point :around #'~/embark-target-identifier)
 
+
 (defun embark-target-lsp-symbol-at-point ()
-  (when lsp-mode
+  (when (bound-and-true-p lsp-mode)
     (require 'lsp-ui-doc)
     (when-let ((bounds (lsp-ui-doc--extract-bounds
                         (lsp-request "textDocument/hover"
