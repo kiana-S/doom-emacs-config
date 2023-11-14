@@ -25,12 +25,14 @@
             (cons (buffer-substring (car bounds) (cdr bounds))
                   bounds)))))
 
-(after! embark
-  (embark-define-thingatpt-target defun emacs-lisp-mode)
 
+(after! embark
+  (setq embark-confirm-act-all nil)
+  (embark-define-thingatpt-target defun emacs-lisp-mode)
   (embark-define-thingatpt-target word
     text-mode help-mode Info-mode man-common)
   (pushnew! embark-target-finders #'embark-target-word-at-point #'embark-target-lsp-symbol-at-point))
+
 
 (after! marginalia
   (pushnew! marginalia-prompt-categories
@@ -39,6 +41,7 @@
   (pushnew! marginalia-annotator-registry
             '(known-project marginalia-annotate-file builtin none))
   (setf (alist-get #'projectile-switch-project marginalia-command-categories nil t) nil))
+
 
 ;; Actions
 
