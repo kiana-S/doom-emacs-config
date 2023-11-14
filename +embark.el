@@ -268,6 +268,17 @@ After marking the target, call RUN with the REST of its arguments."
               "v" #'mark
               "c" #'~/embark-change)
 
+        (:map embark-become-file+buffer-map
+              "." #'find-file
+              "b" #'+vertico/switch-workspace-buffer
+              "B" #'consult-buffer
+              "p" #'projectile--find-file)
+        (:map embark-become-help-map
+              "v" #'helpful-variable
+              "f" #'helpful-callable
+              "o" #'helpful-symbol
+              "s" #'helpful-symbol
+              "p" #'doom/help-packages)))
 
 (after! embark-org
   (map! (:map embark-org-table-cell-map
