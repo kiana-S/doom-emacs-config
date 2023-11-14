@@ -94,12 +94,17 @@ After marking the target, call RUN with the REST of its arguments."
             #'lsp-ui-find-next-reference
             #'lsp-ui-find-prev-reference
             #'forward-word
-            #'backward-word)
+            #'backward-word
+            #'org-table-next-row
+            #'+org/table-previous-row
+            #'org-table-next-field
+            #'org-table-previous-field)
 
   (setf (alist-get #'kill-buffer embark-pre-action-hooks nil t) nil
         (alist-get #'embark-kill-buffer-and-window embark-pre-action-hooks nil t) nil
         (alist-get #'bookmark-delete embark-pre-action-hooks nil t) nil
         (alist-get #'tab-bar-close-tab-by-name embark-pre-action-hooks nil t) nil))
+
 
 ;; Keymaps
 
@@ -266,8 +271,13 @@ After marking the target, call RUN with the REST of its arguments."
 
 (after! embark-org
   (map! (:map embark-org-table-cell-map
+              "RET" #'+org/dwim-at-point
               "v" #'mark
               "-" #'org-table-insert-hline
+              "l" #'org-table-next-field
+              "h" #'org-table-previous-field
+              "j" #'org-table-next-row
+              "k" #'+org/table-previous-row
               "H" #'org-table-move-column-left
               "L" #'org-table-move-column-right
               "J" #'org-table-move-row-down
