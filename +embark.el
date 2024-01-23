@@ -274,8 +274,10 @@ After marking the target, call RUN with the REST of its arguments."
               "B" #'consult-buffer
               "p" #'projectile--find-file)
         (:map embark-become-help-map
+              "b" #'embark-bindings
               "v" #'helpful-variable
               "f" #'helpful-callable
+              "F" #'describe-face
               "o" #'helpful-symbol
               "s" #'helpful-symbol
               "p" #'doom/help-packages)))

@@ -14,8 +14,8 @@
     (let (consult-after-jump-hook)
       (consult--read
        (consult--slow-operation "Collecting headings..."
-                                (or (consult-org--headings nil "-project" nil)
-                                    (user-error "No headings")))
+         (or (consult-org--headings nil "-project" nil)
+             (user-error "No headings")))
        :prompt "Heading: "
        :category 'consult-org-heading
        :sort nil
@@ -196,6 +196,10 @@
         (funcall fn (lambda (dirs)
                       (append dirs (mapcan #'directory-dirs dirs))))))
 
+
+(map! :after org
+      :map org-mode-map
+      "TAB" #'indent-for-tab-command)
 
 (map! :localleader
       :after org
