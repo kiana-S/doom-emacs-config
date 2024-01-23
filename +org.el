@@ -30,29 +30,36 @@
 ;;; Classes and Tags
 
 
-(defvar classes-mwf '("ECON1000")
+(defvar classes-mwf '(("HIST1111" . ?1))
   "Tags that belong under the :MWF: tag.")
-(defvar classes-tr '("ENGL1101" "POLS1101")
+(defvar classes-tr '(("MATH2203" . ?2))
   "Tags that belong under the :TR: tag.")
-(defvar classes-online '("MUSI1107" "POLS2401")
+(defvar classes-online '(("HIST2111" . ?3))
   "Tags that belong under the :Online: tag.")
 
 (after! org
   (setq org-tag-persistent-alist
-        `(("project")
+        `(("project" . ?P) ("meta" . ?M)
           (:newline)
+
+          ;; Topics
+          ("economics" . ?e) ("polsci" . ?p) ("math" . ?m) ("history" . ?h)
+
+          (:startgrouptag) ("math")
+          (:grouptags) ("calculus" . ?c) ("algebra" . ?a) (:endgroup)
+
           ;; Classes
           (:startgroup) ("College")
           (:grouptags) ("TR") ("MWF") ("Online") (:endgroup)
 
           (:startgroup) ("MWF")
-          (:grouptags) ,@(mapcar #'list classes-mwf) (:endgroup)
+          (:grouptags) ,@classes-mwf (:endgroup)
 
           (:startgroup) ("TR")
-          (:grouptags) ,@(mapcar #'list classes-tr) (:endgroup)
+          (:grouptags) ,@classes-tr (:endgroup)
 
           (:startgroup) ("Online")
-          (:grouptags) ,@(mapcar #'list classes-online) (:endgroup))))
+          (:grouptags) ,@classes-online (:endgroup))))
 
 
 ;;; Org config
