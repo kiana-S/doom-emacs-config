@@ -95,7 +95,7 @@
 (use-package! treemacs
   :init
   (setq +treemacs-git-mode 'deferred
-        treemacs-python-executable "/home/kiana/.emacs.d/python3-bin/bin/python")
+        treemacs-python-executable "/home/kiana/python3-bin/bin/python")
   :config
   (setq treemacs-read-string-input 'from-minibuffer
         treemacs-select-when-already-in-treemacs 'stay)
@@ -151,13 +151,6 @@
   (setq cfw:org-face-agenda-item-foreground-color (doom-color 'magenta)))
 
 
-;; This seems to have broken on Doom Emacs's side for some reason?
-(after! git-gutter-fringe
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-
-
 (use-package! pinentry
   :init
   (setq epg-pinentry-mode 'loopback)
@@ -190,23 +183,26 @@
         highlight-indent-guides-auto-top-character-face-perc 200))
 
 ;; Flymake
-(add-hook! prog-mode #'flymake-mode)
-(setq-hook! flymake-mode next-error-function #'flymake-goto-next-error)
 (after! lsp-mode
   (require 'avy) ; Needed for code lens selection
-  (setq lsp-diagnostics-provider :flymake))
-(setq flymake-allowed-file-name-masks nil) ;; HACK
+  )
 
 
 ;; Use Flycheck's double arrow fringe indicator
 (after! flymake
-  (define-fringe-bitmap 'flymake-double-arrow [216 108 54 27 54 108 216])
-  (setf (car flymake-error-bitmap) 'flymake-double-arrow
-        (car flymake-warning-bitmap) 'flymake-double-arrow
-        (car flymake-note-bitmap) 'flymake-double-arrow))
+  (define-fringe-bitmap 'flymake-double-left-arrow
+    [#b00011011
+     #b00110110
+     #b01101100
+     #b11011000
+     #b01101100
+     #b00110110
+     #b00011011])
+  (setf (car flymake-error-bitmap) 'flymake-double-left-arrow
+        (car flymake-warning-bitmap) 'flymake-double-left-arrow
+        (car flymake-note-bitmap) 'flymake-double-left-arrow))
 
 ;; Configuration for flymake-popon
-(add-hook! flymake-mode #'flymake-popon-mode)
 (after! flymake-popon
   (setq flymake-popon-width 120)
   (set-face-foreground 'flymake-popon-posframe-border (doom-color 'selection)))
