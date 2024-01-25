@@ -153,6 +153,7 @@ After marking the target, call RUN with the REST of its arguments."
               "SPC" nil
               "C-SPC" #'embark-select
               "X" #'embark-export
+              "W" #'+vertico/embark-export-write
               "y" #'embark-copy-as-kill
               "v" #'mark
               "C-q" #'embark-toggle-quit
@@ -264,6 +265,8 @@ After marking the target, call RUN with the REST of its arguments."
               "*" nil ":" nil "_" nil)
         (:map embark-file-map
               "g" 'embark-vc-file-map
+              "w" #'embark-save-relative-path
+              "W" #'+vertico/embark-export-write
               "Y" #'copy-file
               "v" #'mark
               "c" #'~/embark-change)
