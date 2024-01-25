@@ -170,9 +170,18 @@
 (after! haskell-mode
   (custom-set-faces! '(haskell-operator-face :slant normal)))
 
-;; Idris 2
+;; Company
 (after! company
-  (setq company-global-modes '(not idris2-mode idris2-repl-mode)))
+  (setq company-global-modes '(not idris2-mode idris2-repl-mode))
+  (map! :map company-active-map
+        :when (company-explicit-action-p)
+        "RET" #'company-complete-selection
+        :when (company-explicit-action-p)
+        "<return>" #'company-complete-selection
+        "TAB" #'company-complete-selection
+        "<tab>" #'company-complete-selection
+        "S-TAB" #'company-complete-common
+        "<backtab>" #'company-complete-common))
 
 
 (after! highlight-indent-guides
