@@ -151,19 +151,6 @@
   (setq cfw:org-face-agenda-item-foreground-color (doom-color 'magenta)))
 
 
-(use-package! pinentry
-  :init
-  (setq epg-pinentry-mode 'loopback)
-  (pinentry-start))
-
-
-;; Restart pinentry due to inactivity
-(defun pinentry-restart ()
-  "Restart a Pinentry service."
-  (interactive)
-  (pinentry-stop) (pinentry-start))
-
-
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
 
