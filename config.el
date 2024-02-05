@@ -157,21 +157,6 @@
 (after! haskell-mode
   (custom-set-faces! '(haskell-operator-face :slant normal)))
 
-;; Company
-(after! company
-  (setq company-global-modes '(not idris2-mode idris2-repl-mode))
-  (let ((item `(menu-item nil company-complete-selection
-                :filter ,(lambda (cmd)
-                           (when (company-explicit-action-p)
-                             cmd)))))
-    (map! :map company-active-map
-          "RET" item
-          "<return>" item
-          "TAB" #'company-complete-selection
-          "<tab>" #'company-complete-selection
-          "S-TAB" #'company-complete-common)))
-
-
 (after! highlight-indent-guides
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-character 9615
@@ -283,6 +268,7 @@ If PARENTS is non-nil, the parents of the specified directory will also be creat
 
 ;; Load extra files
 (load! "+bindings")
+(load! "+company")
 (load! "+org")
 (load! "+embark")
 

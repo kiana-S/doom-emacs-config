@@ -8,6 +8,8 @@
 
 (package! magit-delta)
 
+(package! company-spell)
+
 (package! flycheck :disable t)
 (package! flyspell :disable t)
 
