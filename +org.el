@@ -83,7 +83,7 @@
 
         org-agenda-custom-commands
         '(("n" "Agenda and all tasks"
-           ((agenda "") (tags-todo "+CATEGORY=\"Task\"+DEADLINE=\"\"+SCHEDULED=\"\""))))
+           ((agenda "") (tags-todo "-project+DEADLINE=\"\"+SCHEDULED=\"\"") (stuck ""))))
 
         org-stuck-projects
         '("project/!-TODO-STRT-WAIT-DONE"
