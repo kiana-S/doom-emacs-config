@@ -150,7 +150,7 @@ After marking the target, call RUN with the REST of its arguments."
             '(known-project . embark-known-project-map))
 
   (map! (:map embark-general-map
-              "SPC" nil
+              "SPC" #'doom/leader
               "C-SPC" #'embark-select
               "X" #'embark-export
               "W" #'+vertico/embark-export-write
